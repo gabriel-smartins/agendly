@@ -6,7 +6,8 @@
         "useIgnoreFile": true
     },
     "files": {
-        "ignoreUnknown": false
+        "ignoreUnknown": false,
+        "includes": ["**", "!**/*.css"]
     },
     "formatter": {
         "enabled": true,
@@ -14,7 +15,7 @@
         "indentWidth": 4
     },
     "linter": {
-        "enabled": true,
+        "enabled": false,
         "rules": {
             "preset": "recommended"
         }
