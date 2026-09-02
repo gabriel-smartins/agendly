@@ -1,3 +1,8 @@
 export default function Dashboard() {
-    return <div>Página Dashboard!</div>
+    return (
+        <div>
+            <div className="w-full h-[600px] bg-gray-200 mb-10"></div>
+            <div className="w-full h-[600px] bg-gray-500 mb-10"></div>
+        </div>
+    )
 }
