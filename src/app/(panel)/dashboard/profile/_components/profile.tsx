@@ -2,6 +2,8 @@
 
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import imgTeste from '@/../public/foto1.png'
@@ -49,10 +51,12 @@ interface ProfileContentProps {
 }
 
 export function ProfileContent({ user }: ProfileContentProps) {
+    const router = useRouter()
     const [selectedHours, setSelecterdHours] = useState<string[]>(
         user.times ?? []
     )
     const [dialogIsOpen, setDialogIsOpen] = useState(false)
+    const { update } = useSession()
 
     const form = useProfileForm({
         name: user.name,
@@ -111,6 +115,12 @@ export function ProfileContent({ user }: ProfileContentProps) {
         }
 
         toast.success(response.data)
+    }
+
+    async function handleLogout() {
+        await signOut()
+        await update()
+        router.replace('/')
     }
 
     return (
@@ -359,6 +369,15 @@ export function ProfileContent({ user }: ProfileContentProps) {
                         </CardContent>
                     </Card>
                 </form>
+
+                <section className="mt-4">
+                    <Button
+                        className="bg-red-600 text-white hover:bg-red-400"
+                        onClick={handleLogout}
+                    >
+                        Sair da conta
+                    </Button>
+                </section>
             </Form>
         </div>
     )
