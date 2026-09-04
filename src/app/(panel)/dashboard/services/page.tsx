@@ -1,7 +1,13 @@
-export default function Services() {
-    return (
-        <div className="flex flex-col min-h-screen">
-            <h1>Serviços</h1>
-        </div>
-    )
+import { redirect } from 'next/navigation'
+import getSession from '@/lib/getSession'
+import { ServiceContent } from './_components/service-content'
+
+export default async function Services() {
+    const session = await getSession()
+
+    if (!session) {
+        redirect('/')
+    }
+
+    return <ServiceContent userId={session?.user?.id!} />
 }
