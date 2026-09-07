@@ -10,6 +10,7 @@ import { Service } from '@/generated/prisma/client'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { deleteService } from '../_actions/delete-service'
 import { DialogService } from './dialog-service'
+import { convertCentsToReal } from '@/utils/convertCurrency'
 
 interface ServicesListProps {
     services: Service[]
@@ -36,7 +37,16 @@ export function ServicesList({ services }: ServicesListProps) {
     }
 
     return (
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog
+            open={isDialogOpen}
+            onOpenChange={(open) => {
+                setIsDialogOpen(open)
+
+                if (!open) {
+                    setEditing(null)
+                }
+            }}
+        >
             <section>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -56,29 +66,31 @@ export function ServicesList({ services }: ServicesListProps) {
                                 setEditing(null)
                             }}
                         >
-                            <DialogService
-                                closeModal={() => {
-                                    setIsDialogOpen(false)
-                                    setEditing(null)
-                                }}
-                                serviceId={editing ? editing.id : undefined}
-                                initialValues={
-                                    editing
-                                        ? {
-                                              name: editing.name,
-                                              price: (editing.price / 100)
-                                                  .toFixed(2)
-                                                  .replace('.', ','),
-                                              hours: Math.floor(
-                                                  editing.duration / 60
-                                              ).toString(),
-                                              minutes: (
-                                                  editing.duration % 60
-                                              ).toString(),
-                                          }
-                                        : undefined
-                                }
-                            />
+                            {isDialogOpen && (
+                                <DialogService
+                                    closeModal={() => {
+                                        setIsDialogOpen(false)
+                                        setEditing(null)
+                                    }}
+                                    serviceId={editing ? editing.id : undefined}
+                                    initialValues={
+                                        editing
+                                            ? {
+                                                  name: editing.name,
+                                                  price: convertCentsToReal(
+                                                      editing.price
+                                                  ),
+                                                  hours: Math.floor(
+                                                      editing.duration / 60
+                                                  ).toString(),
+                                                  minutes: (
+                                                      editing.duration % 60
+                                                  ).toString(),
+                                              }
+                                            : undefined
+                                    }
+                                />
+                            )}
                         </DialogContent>
                     </CardHeader>
                     <CardContent>

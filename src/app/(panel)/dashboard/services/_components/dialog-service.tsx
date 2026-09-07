@@ -69,8 +69,6 @@ export function DialogService({
                 duration,
             })
 
-            setLoading(false)
-            toast.success('Serviço editado com sucesso!')
             return
         }
 
@@ -121,9 +119,11 @@ export function DialogService({
         closeModal()
     }
 
-    function changeCurrency(event: React.ChangeEvent<HTMLInputElement>) {
-        let { value } = event.target
-        value = value.replace(/\D/g, '')
+    function handleCurrencyChange(
+        event: React.ChangeEvent<HTMLInputElement>,
+        onChange: (value: string) => void
+    ) {
+        let value = event.target.value.replace(/\D/g, '')
 
         if (value) {
             value = (parseInt(value, 10) / 100).toFixed(2)
@@ -131,8 +131,7 @@ export function DialogService({
             value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
         }
 
-        event.target.value = value
-        form.setValue('price', value)
+        onChange(value)
     }
 
     return (
@@ -181,7 +180,12 @@ export function DialogService({
                                             {...field}
                                             placeholder="ex: 120,00"
                                             className="placeholder:text-gray-400"
-                                            onChange={changeCurrency}
+                                            onChange={(e) =>
+                                                handleCurrencyChange(
+                                                    e,
+                                                    field.onChange
+                                                )
+                                            }
                                         />
                                     </FormControl>
                                     <FormMessage className="text-red-800" />
