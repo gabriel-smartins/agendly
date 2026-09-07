@@ -39,7 +39,7 @@ export async function updateService(formData: FormSchema) {
             },
             data: {
                 name: formData.name,
-                price: formData.duration,
+                price: formData.price,
                 duration: formData.duration < 30 ? 30 : formData.duration,
             },
         })
