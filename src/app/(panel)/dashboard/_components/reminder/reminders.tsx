@@ -6,7 +6,7 @@ interface RemindersProps {
 }
 
 export async function Reminders({ userId }: RemindersProps) {
-    const reminders = await getReminders({ userId })
+    const result = await getReminders({ userId })
 
-    return <ReminderList reminder={reminders} />
+    return <ReminderList reminder={result.success ? result.data : []} />
 }

@@ -1,5 +1,6 @@
 'use server'
 
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 interface GetRemindersProps {
@@ -8,7 +9,7 @@ interface GetRemindersProps {
 
 export async function getReminders({ userId }: GetRemindersProps) {
     if (!userId) {
-        return []
+        return errorAction('Falha ao buscar lembretes.')
     }
 
     try {
@@ -18,10 +19,10 @@ export async function getReminders({ userId }: GetRemindersProps) {
             },
         })
 
-        return reminders
+        return successAction(reminders)
     } catch (error) {
         console.error(error)
 
-        return []
+        return errorAction('Falha ao buscar lembretes.')
     }
 }

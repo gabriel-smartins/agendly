@@ -1,5 +1,6 @@
 'use server'
 
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 export async function getProfessionals() {
@@ -10,10 +11,10 @@ export async function getProfessionals() {
             },
         })
 
-        return professionals
+        return successAction(professionals)
     } catch (error) {
-        console.log(error)
+        console.error(error)
 
-        return []
+        return errorAction('Falha ao buscar profissionais.')
     }
 }

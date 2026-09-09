@@ -1,12 +1,11 @@
 'use server'
 
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 export async function getAllServices({ userId }: { userId: string }) {
     if (!userId) {
-        return {
-            error: 'Falha ao buscar serviços',
-        }
+        return errorAction('Falha ao buscar serviços')
     }
 
     try {
@@ -17,13 +16,9 @@ export async function getAllServices({ userId }: { userId: string }) {
             },
         })
 
-        return {
-            data: services,
-        }
+        return successAction(services)
     } catch (error) {
         console.error(error)
-        return {
-            error: 'Falha ao buscar serviços',
-        }
+        return errorAction('Falha ao buscar serviços')
     }
 }

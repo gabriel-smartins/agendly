@@ -6,11 +6,11 @@ interface AppointmentsProps {
 }
 
 export async function Appointments({ userId }: AppointmentsProps) {
-    const user = await getTimesClinic({ userId })
+    const result = await getTimesClinic({ userId })
 
     return (
         <div>
-            <AppointmentsList times={user.times} />
+            <AppointmentsList times={result.success ? result.data.times : []} />
         </div>
     )
 }

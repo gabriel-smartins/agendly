@@ -7,7 +7,7 @@ import { getProfessionals } from './_data-access/get-professionals'
 export const revalidate = 120
 
 export default async function Home() {
-    const professionals = await getProfessionals()
+    const result = await getProfessionals()
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -15,7 +15,7 @@ export default async function Home() {
 
             <div>
                 <Hero />
-                <Clinics professionals={professionals || []} />
+                <Clinics professionals={result.success ? result.data : []} />
                 <Footer />
             </div>
         </div>

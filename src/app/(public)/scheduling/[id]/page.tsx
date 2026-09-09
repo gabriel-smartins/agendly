@@ -8,15 +8,15 @@ export default async function SchedulePage({
     params: Promise<{ id: string }>
 }) {
     const userId = (await params).id
-    const user = await getInfoSchedule({ userId })
+    const result = await getInfoSchedule({ userId })
 
-    if (!user?.data) {
+    if (!result.success || !result.data) {
         redirect('/')
     }
 
     return (
         <div>
-            <ScheduleContent clinic={user.data} />
+            <ScheduleContent clinic={result.data} />
         </div>
     )
 }

@@ -1,5 +1,6 @@
 'use server'
 
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 interface GetInfoScheduleProps {
@@ -9,7 +10,7 @@ interface GetInfoScheduleProps {
 export async function getInfoSchedule({ userId }: GetInfoScheduleProps) {
     try {
         if (!userId) {
-            return null
+            return errorAction('Usuário não encontrado.')
         }
 
         const user = await prisma.user.findFirst({
@@ -27,16 +28,12 @@ export async function getInfoSchedule({ userId }: GetInfoScheduleProps) {
         })
 
         if (!user) {
-            return null
+            return errorAction('Usuário não encontrado.')
         }
 
-        return {
-            data: user,
-        }
+        return successAction(user)
     } catch (error) {
         console.error(error)
-        return {
-            error: 'Erro ao buscar usuário.',
-        }
+        return errorAction('Erro ao buscar usuário.')
     }
 }
