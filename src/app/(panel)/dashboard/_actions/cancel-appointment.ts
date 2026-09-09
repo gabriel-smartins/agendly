@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 const formSchema = z.object({
@@ -17,17 +18,13 @@ export async function cancelAppointment(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return {
-            error: 'Falha ao cancelar agendamento.',
-        }
+        return errorAction('Falha ao cancelar agendamento.')
     }
 
     const schema = formSchema.safeParse(formData)
 
     if (!schema.success) {
-        return {
-            error: schema.error.issues[0].message,
-        }
+        return errorAction(schema.error.issues[0].message)
     }
 
     try {
@@ -40,14 +37,10 @@ export async function cancelAppointment(formData: FormSchema) {
 
         revalidatePath('/dashboard')
 
-        return {
-            data: 'Agendamendo cancelado com sucesso!',
-        }
+        return successAction('Agendamendo cancelado com sucesso!')
     } catch (error) {
         console.error(error)
 
-        return {
-            error: 'Falha ao cancelar agendamento.',
-        }
+        return errorAction('Falha ao cancelar agendamento.')
     }
 }

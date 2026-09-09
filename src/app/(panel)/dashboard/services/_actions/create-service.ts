@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 const formSchema = z.object({
@@ -17,17 +18,13 @@ export async function createNewService(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return {
-            error: 'Falha ao cadastrar serviço',
-        }
+        return errorAction('Falha ao cadastrar serviço')
     }
 
     const schema = formSchema.safeParse(formData)
 
     if (!schema.success) {
-        return {
-            error: schema.error.issues[0].message,
-        }
+        return errorAction(schema.error.issues[0].message)
     }
 
     try {
@@ -42,13 +39,9 @@ export async function createNewService(formData: FormSchema) {
 
         revalidatePath('/dashboard/services')
 
-        return {
-            data: newService,
-        }
+        return successAction(newService)
     } catch (error) {
         console.error(error)
-        return {
-            error: 'Falha ao cadastrar serviço',
-        }
+        return errorAction('Falha ao cadastrar serviço')
     }
 }

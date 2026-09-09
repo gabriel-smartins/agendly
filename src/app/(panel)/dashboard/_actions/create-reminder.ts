@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 const formSchema = z.object({
@@ -17,17 +18,13 @@ export async function createReminder(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return {
-            error: 'Falha ao cadastrar lembrete.',
-        }
+        return errorAction('Falha ao cadastrar lembrete.')
     }
 
     const schema = formSchema.safeParse(formData)
 
     if (!schema.success) {
-        return {
-            error: schema.error.issues[0].message,
-        }
+        return errorAction(schema.error.issues[0].message)
     }
 
     try {
@@ -40,14 +37,10 @@ export async function createReminder(formData: FormSchema) {
 
         revalidatePath('/dashboard')
 
-        return {
-            data: 'Lembrete cadastrado com sucesso!',
-        }
+        return successAction('Lembrete cadastrado com sucesso!')
     } catch (error) {
         console.error(error)
 
-        return {
-            error: 'Falha ao cadastrar lembrete.',
-        }
+        return errorAction('Falha ao cadastrar lembrete.')
     }
 }

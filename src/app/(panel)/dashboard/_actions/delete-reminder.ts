@@ -2,6 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { auth } from '@/lib/auth'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 const formSchema = z.object({
@@ -15,12 +17,16 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>
 
 export async function deleteReminder(formData: FormSchema) {
+    const session = await auth()
+
+    if (!session?.user?.id) {
+        return errorAction('Usuário não autenticado.')
+    }
+
     const schema = formSchema.safeParse(formData)
 
     if (!schema.success) {
-        return {
-            error: schema.error.issues[0].message,
-        }
+        return errorAction(schema.error.issues[0].message)
     }
 
     try {
@@ -32,14 +38,10 @@ export async function deleteReminder(formData: FormSchema) {
 
         revalidatePath('/dashboard')
 
-        return {
-            data: 'Lembrete deletado com sucesso!',
-        }
+        return successAction('Lembrete deletado com sucesso!')
     } catch (error) {
         console.error(error)
 
-        return {
-            error: 'Falha ao deletar lembrete.',
-        }
+        return errorAction('Falha ao deletar lembrete.')
     }
 }

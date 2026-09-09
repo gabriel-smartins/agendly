@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 const updateSchema = z.object({
@@ -20,17 +21,13 @@ export async function updateProfile(updateData: UpdateSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return {
-            error: 'Usuário não encontrado.',
-        }
+        return errorAction('Usuário não encontrado.')
     }
 
     const schema = updateSchema.safeParse(updateData)
 
     if (!schema.success) {
-        return {
-            error: 'Preencha todos os campos corretamente.',
-        }
+        return errorAction('Preencha todos os campos corretamente.')
     }
 
     try {
@@ -50,14 +47,10 @@ export async function updateProfile(updateData: UpdateSchema) {
 
         revalidatePath('/dashboard/profile')
 
-        return {
-            data: 'Dados atualizados com sucesso!',
-        }
+        return successAction('Dados atualizados com sucesso!')
     } catch (error) {
         console.log(error)
 
-        return {
-            error: 'Falha ao atualizar dados.',
-        }
+        return errorAction('Falha ao atualizar dados.')
     }
 }

@@ -1,6 +1,7 @@
 'use server'
 
 import { z } from 'zod'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 const formSchema = z.object({
@@ -19,9 +20,7 @@ export async function createNewAppointment(formData: FormSchema) {
     const schema = formSchema.safeParse(formData)
 
     if (!schema.success) {
-        return {
-            error: schema.error.issues[0].message,
-        }
+        return errorAction(schema.error.issues[0].message)
     }
 
     try {
@@ -43,14 +42,10 @@ export async function createNewAppointment(formData: FormSchema) {
             },
         })
 
-        return {
-            data: newAppointment,
-        }
+        return successAction(newAppointment)
     } catch (error) {
         console.error(error)
 
-        return {
-            error: 'Erro ao realizar agendamento.',
-        }
+        return errorAction('Erro ao realizar agendamento.')
     }
 }
