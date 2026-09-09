@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 import getSession from '@/lib/getSession'
 import { ServiceContent } from './_components/service-content'
 
@@ -11,7 +12,23 @@ export default async function Services() {
     }
 
     return (
-        <Suspense fallback={<div>Carregando...</div>}>
+        <Suspense
+            fallback={
+                <section className="space-y-4">
+                    <div className="flex items-center justify-between gap-3">
+                        <Skeleton className="h-9 w-36" />
+                        <Skeleton className="h-10 w-10 rounded-md" />
+                    </div>
+
+                    <div className="space-y-3 rounded-xl border bg-card p-4">
+                        <Skeleton className="h-5 w-32" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                    </div>
+                </section>
+            }
+        >
             <ServiceContent userId={session?.user?.id!} />
         </Suspense>
     )
