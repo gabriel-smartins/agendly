@@ -29,7 +29,7 @@ export function ReminderContent({ closeDialog }: ReminderContentProps) {
             description: formData.description,
         })
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
             return
         }

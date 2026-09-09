@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 export const GET = auth(async function GET(request) {
     if (!request.auth) {
         return NextResponse.json(
-            { error: 'Usuário não autenticado, acesso não autorizado.' },
+            errorAction('Usuário não autenticado, acesso não autorizado.'),
             { status: 401 }
         )
     }
@@ -16,17 +17,15 @@ export const GET = auth(async function GET(request) {
     const clinicId = request.auth?.user?.id
 
     if (!dateString) {
-        return NextResponse.json(
-            { error: 'Data não informada!' },
-            { status: 400 }
-        )
+        return NextResponse.json(errorAction('Data não informada!'), {
+            status: 400,
+        })
     }
 
     if (!clinicId) {
-        return NextResponse.json(
-            { error: 'Usuário não encontrado!' },
-            { status: 404 }
-        )
+        return NextResponse.json(errorAction('Usuário não encontrado!'), {
+            status: 404,
+        })
     }
 
     try {
@@ -50,13 +49,12 @@ export const GET = auth(async function GET(request) {
             },
         })
 
-        return NextResponse.json(appointments)
+        return NextResponse.json(successAction(appointments))
     } catch (error) {
         console.error(error)
 
-        return NextResponse.json(
-            { error: 'Falha ao buscar agendamentos.' },
-            { status: 400 }
-        )
+        return NextResponse.json(errorAction('Falha ao buscar agendamentos.'), {
+            status: 400,
+        })
     }
 })

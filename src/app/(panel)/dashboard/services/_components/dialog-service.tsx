@@ -80,7 +80,7 @@ export function DialogService({
 
         setLoading(false)
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
             return
         }
@@ -105,7 +105,7 @@ export function DialogService({
 
         setLoading(false)
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
             return
         }

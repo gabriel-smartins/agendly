@@ -31,7 +31,7 @@ export function ReminderList({ reminder }: ReminderListProps) {
     async function handleDeleteReminder(reminderId: string) {
         const response = await deleteReminder({ reminderId })
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
             return
         }

@@ -47,20 +47,18 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
             const url = `${process.env.NEXT_PUBLIC_URL}/api/clinic/appointments?date=${activeDate}`
 
             const response = await fetch(url)
+            const json = await response.json().catch(() => null)
 
-            if (!response.ok) {
-                const errorBody = await response.text()
+            if (!response.ok || !json?.success) {
                 console.error(
                     'Falha ao buscar na API:',
                     response.status,
-                    errorBody
+                    json?.error || 'Resposta inválida da API.'
                 )
                 return []
             }
 
-            const json = (await response.json()) as AppointmentWithService[]
-
-            return json
+            return (json.data || []) as AppointmentWithService[]
         },
 
         staleTime: 20000,
@@ -95,7 +93,7 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
     async function handleCancelAppointment(appointmentId: string) {
         const response = await cancelAppointment({ appointmentId })
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
             return
         }

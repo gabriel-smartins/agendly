@@ -67,11 +67,17 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_URL}/api/schedule/get-appointments?userId=${clinic.id}&date=${dateString}`
                 )
+                const json = await response.json().catch(() => null)
 
-                const json = await response.json()
+                if (!response.ok || !json?.success) {
+                    throw new Error(json?.error || 'Falha ao buscar horários.')
+                }
+
+                const blockedTimes = Array.isArray(json.data) ? json.data : []
+
                 setLoadingSlots(false)
 
-                return json
+                return blockedTimes
             } catch (error) {
                 console.error(error)
                 setLoadingSlots(false)
@@ -122,8 +128,9 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
             clinicId: clinic.id,
         })
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
+            return
         }
 
         toast.success('Agendamento realizado com sucesso!')

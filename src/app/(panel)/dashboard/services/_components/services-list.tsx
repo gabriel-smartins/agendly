@@ -23,7 +23,7 @@ export function ServicesList({ services }: ServicesListProps) {
     async function handleDeleteService(serviceId: string) {
         const response = await deleteService({ serviceId })
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
             return
         }

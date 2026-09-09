@@ -109,7 +109,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
             times: selectedHours || [],
         })
 
-        if (response.error) {
+        if (!response.success) {
             toast.error(response.error)
             return
         }

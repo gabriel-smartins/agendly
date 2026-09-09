@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
 export async function GET(request: NextRequest) {
@@ -9,9 +10,7 @@ export async function GET(request: NextRequest) {
 
     if (!userId || userId === 'null' || !dateParam || dateParam === 'null') {
         return NextResponse.json(
-            {
-                error: 'Nenhum agendamento encontrado.',
-            },
+            errorAction('Nenhum agendamento encontrado.'),
             {
                 status: 400,
             }
@@ -33,9 +32,7 @@ export async function GET(request: NextRequest) {
 
         if (!user) {
             return NextResponse.json(
-                {
-                    error: 'Nenhum usuário encontrado.',
-                },
+                errorAction('Nenhum usuário encontrado.'),
                 {
                     status: 404,
                 }
@@ -74,14 +71,12 @@ export async function GET(request: NextRequest) {
 
         const blockedTimes = Array.from(blockedSlots)
 
-        return NextResponse.json(blockedTimes)
+        return NextResponse.json(successAction(blockedTimes))
     } catch (error) {
         console.error(error)
 
         return NextResponse.json(
-            {
-                error: 'Nenhum agendamento encontrado.',
-            },
+            errorAction('Nenhum agendamento encontrado.'),
             {
                 status: 400,
             }
