@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import getSession from '@/lib/getSession'
 import { ServiceContent } from './_components/service-content'
 
@@ -9,5 +10,9 @@ export default async function Services() {
         redirect('/')
     }
 
-    return <ServiceContent userId={session?.user?.id!} />
+    return (
+        <Suspense fallback={<div>Carregando...</div>}>
+            <ServiceContent userId={session?.user?.id!} />
+        </Suspense>
+    )
 }
