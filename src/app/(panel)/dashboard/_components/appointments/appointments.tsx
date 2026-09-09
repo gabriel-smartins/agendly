@@ -1,4 +1,4 @@
-import { getTimesClinic } from '../../_data-access/get-times-clinic'
+import { getProfileTimes } from '../../_data-access/get-profile-times'
 import { AppointmentsList } from './appointments-list'
 
 interface AppointmentsProps {
@@ -6,7 +6,7 @@ interface AppointmentsProps {
 }
 
 export async function Appointments({ userId }: AppointmentsProps) {
-    const result = await getTimesClinic({ userId })
+    const result = await getProfileTimes({ userId })
 
     return (
         <div>

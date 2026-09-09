@@ -44,7 +44,7 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                 activeDate = today
             }
 
-            const url = `${process.env.NEXT_PUBLIC_URL}/api/clinic/appointments?date=${activeDate}`
+            const url = `${process.env.NEXT_PUBLIC_URL}/api/appointments?date=${activeDate}`
 
             const response = await fetch(url)
             const json = await response.json().catch(() => null)

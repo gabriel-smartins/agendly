@@ -11,7 +11,7 @@ const formSchema = z.object({
     date: z.date(),
     serviceId: z.string().min(1, { message: 'O serviço é obrigatório.' }),
     time: z.string().min(1, { message: 'O horário é obrigatório.' }),
-    clinicId: z.string().min(1, { message: 'O usuário é obrigatório.' }),
+    profileId: z.string().min(1, { message: 'O usuário é obrigatório.' }),
 })
 
 type FormSchema = z.infer<typeof formSchema>
@@ -38,7 +38,7 @@ export async function createNewAppointment(formData: FormSchema) {
                 time: formData.time,
                 appointementDate: appointmentDate,
                 serviceId: formData.serviceId,
-                userId: formData.clinicId,
+                userId: formData.profileId,
             },
         })
 

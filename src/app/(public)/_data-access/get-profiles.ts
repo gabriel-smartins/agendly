@@ -3,7 +3,7 @@
 import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
-export async function getProfessionals() {
+export async function getProfiles() {
     try {
         const professionals = await prisma.user.findMany({
             where: {

@@ -38,7 +38,7 @@ type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
 }>
 
 interface ScheduleContentProps {
-    clinic: UserWithServiceAndSubscription
+    profile: UserWithServiceAndSubscription
 }
 
 export interface TimeSlot {
@@ -46,7 +46,7 @@ export interface TimeSlot {
     isAvailable: boolean
 }
 
-export function ScheduleContent({ clinic }: ScheduleContentProps) {
+export function ScheduleContent({ profile }: ScheduleContentProps) {
     const form = useScheduleForm()
     const { watch } = form
 
@@ -65,7 +65,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
             try {
                 const dateString = date.toISOString().split('T')[0]
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_URL}/api/schedule/get-appointments?userId=${clinic.id}&date=${dateString}`
+                    `${process.env.NEXT_PUBLIC_URL}/api/appointments/availability?userId=${profile.id}&date=${dateString}`
                 )
                 const json = await response.json().catch(() => null)
 
@@ -85,7 +85,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                 return []
             }
         },
-        [clinic.id]
+        [profile.id]
     )
 
     useEffect(() => {
@@ -93,7 +93,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
             fetchBlockedTimes(selectedDate).then((blocked) => {
                 setBlockedTimes(blocked)
 
-                const times = clinic.times || []
+                const times = profile.times || []
 
                 const finalSlots = times.map((time) => ({
                     time: time,
@@ -111,7 +111,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                 }
             })
         }
-    }, [selectedDate, clinic.times, fetchBlockedTimes, selectedTime])
+    }, [selectedDate, profile.times, fetchBlockedTimes, selectedTime])
 
     async function onSubmit(formData: ScheduleFormData) {
         if (!selectedTime) {
@@ -125,7 +125,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
             time: selectedTime,
             date: formData.date,
             serviceId: formData.serviceId,
-            clinicId: clinic.id,
+            profileId: profile.id,
         })
 
         if (!response.success) {
@@ -146,21 +146,21 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                     <article className="flex flex-col items-center">
                         <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-white mb-8">
                             <Image
-                                src={clinic.image ? clinic.image : imgTest}
-                                alt="foto da clinica"
+                                src={profile.image ? profile.image : imgTest}
+                                alt="foto do perfil"
                                 className="object-cover"
                                 fill
                             />
                         </div>
 
                         <h1 className="text-2xl font-bold mb-2">
-                            {clinic.name}
+                            {profile.name}
                         </h1>
                         <div className="flex items-center gap-1">
                             <MapPin className="w-5 h-5" />
                             <span>
-                                {clinic.address
-                                    ? clinic.address
+                                {profile.address
+                                    ? profile.address
                                     : 'Endereço não informado'}
                             </span>
                         </div>
@@ -286,7 +286,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                                                 <SelectValue placeholder="Selecione um serviço" />
                                             </SelectTrigger>
                                             <SelectContent className="bg-white">
-                                                {clinic.services.map(
+                                                {profile.services.map(
                                                     (service) => (
                                                         <SelectItem
                                                             key={service.id}
@@ -319,13 +319,13 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                                             selectedDate={selectedDate}
                                             selectedTime={selectedTime}
                                             requiredSlots={
-                                                clinic.services.find(
+                                                profile.services.find(
                                                     (service) =>
                                                         service.id ===
                                                         selectedServiceId
                                                 )
                                                     ? Math.ceil(
-                                                          clinic.services.find(
+                                                          profile.services.find(
                                                               (service) =>
                                                                   service.id ===
                                                                   selectedServiceId
@@ -337,7 +337,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                                             availableTimeSlots={
                                                 availableTimeSlots
                                             }
-                                            clinicTimes={clinic.times}
+                                            profileTimes={profile.times}
                                             onSelectTime={(time) =>
                                                 setSelectedTime(time)
                                             }
@@ -347,7 +347,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                             </div>
                         )}
 
-                        {clinic.status ? (
+                        {profile.status ? (
                             <Button
                                 type="submit"
                                 className="w-full text-white bg-emerald-500 hover:bg-emerald-400"

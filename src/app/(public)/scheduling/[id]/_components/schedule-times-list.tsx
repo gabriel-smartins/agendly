@@ -15,7 +15,7 @@ interface ScheduleTimeListProps {
     requiredSlots: number
     blockedTimes: string[]
     availableTimeSlots: TimeSlot[]
-    clinicTimes: string[]
+    profileTimes: string[]
     onSelectTime: (time: string) => void
 }
 
@@ -25,7 +25,7 @@ export function ScheduleTimeList({
     requiredSlots,
     blockedTimes,
     availableTimeSlots,
-    clinicTimes,
+    profileTimes,
     onSelectTime,
 }: ScheduleTimeListProps) {
     const dateIsToday = isToday(selectedDate)
@@ -36,7 +36,7 @@ export function ScheduleTimeList({
                 const sequenceOk = isSlotSequenceAvailable(
                     slot.time,
                     requiredSlots,
-                    clinicTimes,
+                    profileTimes,
                     blockedTimes
                 )
                 const slotIsPast = dateIsToday && isSlotInThePast(slot.time)

@@ -3,11 +3,11 @@
 import { errorAction, successAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'
 
-interface GetTimesProps {
+interface GetProfileTimesProps {
     userId: string
 }
 
-export async function getTimesClinic({ userId }: GetTimesProps) {
+export async function getProfileTimes({ userId }: GetProfileTimesProps) {
     if (!userId) {
         return errorAction('O ID do usuário não foi fornecido.')
     }

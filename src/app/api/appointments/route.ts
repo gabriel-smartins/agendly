@@ -14,7 +14,7 @@ export const GET = auth(async function GET(request) {
     const searchParams = request.nextUrl.searchParams
     const dateString = searchParams.get('date') as string
 
-    const clinicId = request.auth?.user?.id
+    const userId = request.auth?.user?.id
 
     if (!dateString) {
         return NextResponse.json(errorAction('Data não informada!'), {
@@ -22,7 +22,7 @@ export const GET = auth(async function GET(request) {
         })
     }
 
-    if (!clinicId) {
+    if (!userId) {
         return NextResponse.json(errorAction('Usuário não encontrado!'), {
             status: 404,
         })
@@ -38,7 +38,7 @@ export const GET = auth(async function GET(request) {
 
         const appointments = await prisma.appointment.findMany({
             where: {
-                userId: clinicId,
+                userId,
                 appointementDate: {
                     gte: startDate,
                     lte: endDate,

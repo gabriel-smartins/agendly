@@ -16,7 +16,7 @@ export default async function SchedulePage({
 
     return (
         <div>
-            <ScheduleContent clinic={result.data} />
+            <ScheduleContent profile={result.data} />
         </div>
     )
 }
