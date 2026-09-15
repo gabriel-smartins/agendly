@@ -1,5 +1,7 @@
 'use client'
 
+import { Loader } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,11 +21,14 @@ interface SubscriptionDetailProps {
 }
 
 export function SubscriptionDetail({ subscription }: SubscriptionDetailProps) {
+    const [isLoading, setIsLoading] = useState(false)
     const subscriptionsInfo = subscriptionPlans.find(
         (plan) => plan.id === subscription.plan
     )
 
     async function handleManageSubscription() {
+        setIsLoading(true)
+
         try {
             const response = await createCustomerPortal()
 
@@ -35,6 +40,8 @@ export function SubscriptionDetail({ subscription }: SubscriptionDetailProps) {
             window.location.href = response.data.portalUrl
         } catch (error) {
             toast.error('Ocorreu um erro inesperado ao conectar ao servidor.')
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -71,8 +78,14 @@ export function SubscriptionDetail({ subscription }: SubscriptionDetailProps) {
                 <Button
                     className="bg-black text-white hover:bg-gray-700"
                     onClick={handleManageSubscription}
+                    disabled={isLoading}
                 >
-                    Gerenciar assinatura
+                    {isLoading && (
+                        <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    {isLoading
+                        ? 'Abrindo assinatura...'
+                        : 'Gerenciar assinatura'}
                 </Button>
             </CardFooter>
         </Card>

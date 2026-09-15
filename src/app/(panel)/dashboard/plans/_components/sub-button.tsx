@@ -1,5 +1,7 @@
 'use client'
 
+import { Loader } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Plan } from '@/generated/prisma/enums'
@@ -11,18 +13,26 @@ interface SubButtonProps {
 }
 
 export function SubButton({ plan }: SubButtonProps) {
+    const [isLoading, setIsLoading] = useState(false)
+
     async function handleBilling() {
-        const response = await createSub({ plan })
+        setIsLoading(true)
 
-        if (!response.success) {
-            toast.error(response.error)
-            return
-        }
+        try {
+            const response = await createSub({ plan })
 
-        const stripe = await getStripe()
+            if (!response.success) {
+                toast.error(response.error)
+                return
+            }
 
-        if (stripe && response.data.url) {
-            window.location.href = response.data.url
+            const stripe = await getStripe()
+
+            if (stripe && response.data.url) {
+                window.location.href = response.data.url
+            }
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -30,8 +40,10 @@ export function SubButton({ plan }: SubButtonProps) {
         <Button
             className={`w-full text-white bg-slate-950 hover:bg-slate-800 ${plan === 'PROFESSIONAL' && 'bg-emerald-500 hover:bg-emerald-400'}`}
             onClick={handleBilling}
+            disabled={isLoading}
         >
-            Ativar assinatura
+            {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading ? 'Ativando assinatura...' : 'Ativar assinatura'}
         </Button>
     )
 }

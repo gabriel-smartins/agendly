@@ -1,6 +1,6 @@
 'use client'
 
-import { LogIn, Menu } from 'lucide-react'
+import { Loader, LogIn, Menu } from 'lucide-react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
@@ -18,11 +18,18 @@ import { handleRegister } from '../_actions/login'
 export function Header() {
     const { data: session, status } = useSession()
     const [isOpen, setIsOpen] = useState(false)
+    const [isLoggingIn, setIsLoggingIn] = useState(false)
 
     const navItems = [{ href: '#profissionais', label: 'Profissionais' }]
 
     async function handleLogin() {
-        await handleRegister('github')
+        setIsLoggingIn(true)
+
+        try {
+            await handleRegister('github')
+        } finally {
+            setIsLoggingIn(false)
+        }
     }
 
     const NavLinks = () => (
@@ -48,9 +55,13 @@ export function Header() {
                     Acessar clínica
                 </Link>
             ) : (
-                <Button onClick={handleLogin}>
-                    <LogIn />
-                    Portal da clínica
+                <Button onClick={handleLogin} disabled={isLoggingIn}>
+                    {isLoggingIn ? (
+                        <Loader className="animate-spin" />
+                    ) : (
+                        <LogIn />
+                    )}
+                    {isLoggingIn ? 'Entrando...' : 'Portal da clínica'}
                 </Button>
             )}
         </>

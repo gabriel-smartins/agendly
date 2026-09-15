@@ -1,6 +1,8 @@
 'use client'
 
+import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -21,22 +23,29 @@ interface ReminderContentProps {
 
 export function ReminderContent({ closeDialog }: ReminderContentProps) {
     const form = useReminderForm()
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const router = useRouter()
 
     async function onSubmit(formData: ReminderFormData) {
-        const response = await createReminder({
-            description: formData.description,
-        })
+        setIsSubmitting(true)
 
-        if (!response.success) {
-            toast.error(response.error)
-            return
+        try {
+            const response = await createReminder({
+                description: formData.description,
+            })
+
+            if (!response.success) {
+                toast.error(response.error)
+                return
+            }
+
+            toast.success(response.data)
+            router.refresh()
+            closeDialog()
+        } finally {
+            setIsSubmitting(false)
         }
-
-        toast.success(response.data)
-        router.refresh()
-        closeDialog()
     }
 
     return (
@@ -70,9 +79,12 @@ export function ReminderContent({ closeDialog }: ReminderContentProps) {
                     <Button
                         type="submit"
                         className="bg-emerald-500 hover:bg-emerald-400 text-white"
-                        disabled={!form.watch('description')}
+                        disabled={isSubmitting || !form.watch('description')}
                     >
-                        Cadastrar lembrete
+                        {isSubmitting && (
+                            <Loader className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        {isSubmitting ? 'Cadastrando...' : 'Cadastrar lembrete'}
                     </Button>
                 </form>
             </Form>

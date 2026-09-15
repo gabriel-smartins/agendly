@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, Trash } from 'lucide-react'
+import { Loader, Plus, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -27,17 +27,26 @@ export function ReminderList({ reminder }: ReminderListProps) {
     const router = useRouter()
 
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [deletingReminderId, setDeletingReminderId] = useState<string | null>(
+        null
+    )
 
     async function handleDeleteReminder(reminderId: string) {
-        const response = await deleteReminder({ reminderId })
+        setDeletingReminderId(reminderId)
 
-        if (!response.success) {
-            toast.error(response.error)
-            return
+        try {
+            const response = await deleteReminder({ reminderId })
+
+            if (!response.success) {
+                toast.error(response.error)
+                return
+            }
+
+            toast.success(response.data)
+            router.refresh()
+        } finally {
+            setDeletingReminderId(null)
         }
-
-        toast.success(response.data)
-        router.refresh()
     }
 
     return (
@@ -94,8 +103,15 @@ export function ReminderList({ reminder }: ReminderListProps) {
                                         onClick={() =>
                                             handleDeleteReminder(item.id)
                                         }
+                                        disabled={
+                                            deletingReminderId === item.id
+                                        }
                                     >
-                                        <Trash className="w-5 h-5 text-white" />
+                                        {deletingReminderId === item.id ? (
+                                            <Loader className="h-5 w-5 animate-spin text-white" />
+                                        ) : (
+                                            <Trash className="w-5 h-5 text-white" />
+                                        )}
                                     </Button>
                                 </article>
                             ))}

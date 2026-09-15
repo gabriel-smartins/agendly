@@ -2,7 +2,7 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { Eye, X } from 'lucide-react'
+import { Eye, Loader, X } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -33,6 +33,9 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [detailAppointment, setDetailAppointment] =
         useState<AppointmentWithService | null>(null)
+    const [cancellingAppointmentId, setCancellingAppointmentId] = useState<
+        string | null
+    >(null)
 
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['get-appointments', date],
@@ -91,16 +94,22 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
     }
 
     async function handleCancelAppointment(appointmentId: string) {
-        const response = await cancelAppointment({ appointmentId })
+        setCancellingAppointmentId(appointmentId)
 
-        if (!response.success) {
-            toast.error(response.error)
-            return
+        try {
+            const response = await cancelAppointment({ appointmentId })
+
+            if (!response.success) {
+                toast.error(response.error)
+                return
+            }
+
+            queryClient.invalidateQueries({ queryKey: ['get-appointments'] })
+            await refetch()
+            toast.success(response.data)
+        } finally {
+            setCancellingAppointmentId(null)
         }
-
-        queryClient.invalidateQueries({ queryKey: ['get-appointments'] })
-        await refetch()
-        toast.success(response.data)
     }
 
     return (
@@ -175,8 +184,17 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                                                                   occupant.id
                                                               )
                                                           }
+                                                          disabled={
+                                                              cancellingAppointmentId ===
+                                                              occupant.id
+                                                          }
                                                       >
-                                                          <X className="w-4 h-4" />
+                                                          {cancellingAppointmentId ===
+                                                          occupant.id ? (
+                                                              <Loader className="h-4 w-4 animate-spin" />
+                                                          ) : (
+                                                              <X className="w-4 h-4" />
+                                                          )}
                                                       </Button>
                                                   </div>
                                               </div>

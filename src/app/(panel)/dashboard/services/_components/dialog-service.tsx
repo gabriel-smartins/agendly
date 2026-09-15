@@ -1,5 +1,6 @@
 'use client'
 
+import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -247,9 +248,16 @@ export function DialogService({
                         className="w-full font-semibold text-white bg-emerald-500 mt-2"
                         disabled={loading}
                     >
+                        {loading && (
+                            <Loader className="mr-2 h-4 w-4 animate-spin" />
+                        )}
                         {loading
-                            ? 'Carregando...'
-                            : `${serviceId ? 'Atualizar serviço' : 'Cadastrar serviço'}`}
+                            ? serviceId
+                                ? 'Atualizando serviço...'
+                                : 'Cadastrando serviço...'
+                            : serviceId
+                              ? 'Atualizar serviço'
+                              : 'Cadastrar serviço'}
                     </Button>
                 </form>
             </Form>

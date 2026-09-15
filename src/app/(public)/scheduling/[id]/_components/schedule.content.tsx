@@ -1,6 +1,6 @@
 'use client'
 
-import { MapPin } from 'lucide-react'
+import { Loader, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -58,6 +58,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
     const [loadingSlots, setLoadingSlots] = useState(false)
 
     const [blockedTimes, setBlockedTimes] = useState<string[]>([])
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const fetchBlockedTimes = useCallback(
         async (date: Date): Promise<string[]> => {
@@ -118,24 +119,30 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
             return
         }
 
-        const response = await createNewAppointment({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            time: selectedTime,
-            date: formData.date,
-            serviceId: formData.serviceId,
-            profileId: profile.id,
-        })
+        setIsSubmitting(true)
 
-        if (!response.success) {
-            toast.error(response.error)
-            return
+        try {
+            const response = await createNewAppointment({
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                time: selectedTime,
+                date: formData.date,
+                serviceId: formData.serviceId,
+                profileId: profile.id,
+            })
+
+            if (!response.success) {
+                toast.error(response.error)
+                return
+            }
+
+            toast.success('Agendamento realizado com sucesso!')
+            form.reset()
+            setSelectedTime('')
+        } finally {
+            setIsSubmitting(false)
         }
-
-        toast.success('Agendamento realizado com sucesso!')
-        form.reset()
-        setSelectedTime('')
     }
 
     return (
@@ -352,6 +359,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                 type="submit"
                                 className="w-full text-white bg-emerald-500 hover:bg-emerald-400"
                                 disabled={
+                                    isSubmitting ||
                                     !watch('name') ||
                                     !watch('email') ||
                                     !watch('phone') ||
@@ -359,7 +367,12 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                     !watch('serviceId')
                                 }
                             >
-                                Realizar agendamento
+                                {isSubmitting && (
+                                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                {isSubmitting
+                                    ? 'Realizando agendamento...'
+                                    : 'Realizar agendamento'}
                             </Button>
                         ) : (
                             <p className="bg-red-500 text-white text-center px-4 py-2 rounded-md">

@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Loader } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
@@ -56,6 +56,8 @@ export function ProfileContent({ user }: ProfileContentProps) {
         user.times ?? []
     )
     const [dialogIsOpen, setDialogIsOpen] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
     const { update } = useSession()
 
     const form = useProfileForm({
@@ -100,27 +102,39 @@ export function ProfileContent({ user }: ProfileContentProps) {
     )
 
     async function onSubmit(values: ProfileFormData) {
-        const response = await updateProfile({
-            name: values.name,
-            address: values.address,
-            status: values.status === 'active' ? true : false,
-            phone: values.phone,
-            timezone: values.timezone,
-            times: selectedHours || [],
-        })
+        setIsSubmitting(true)
 
-        if (!response.success) {
-            toast.error(response.error)
-            return
+        try {
+            const response = await updateProfile({
+                name: values.name,
+                address: values.address,
+                status: values.status === 'active' ? true : false,
+                phone: values.phone,
+                timezone: values.timezone,
+                times: selectedHours || [],
+            })
+
+            if (!response.success) {
+                toast.error(response.error)
+                return
+            }
+
+            toast.success(response.data)
+        } finally {
+            setIsSubmitting(false)
         }
-
-        toast.success(response.data)
     }
 
     async function handleLogout() {
-        await signOut()
-        await update()
-        router.replace('/')
+        setIsLoggingOut(true)
+
+        try {
+            await signOut()
+            await update()
+            router.replace('/')
+        } finally {
+            setIsLoggingOut(false)
+        }
     }
 
     return (
@@ -362,8 +376,14 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                 <Button
                                     type="submit"
                                     className="bg-emerald-500 hover:bg-emerald-400 text-white w-full"
+                                    disabled={isSubmitting}
                                 >
-                                    Salvar alterações
+                                    {isSubmitting && (
+                                        <Loader className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                    {isSubmitting
+                                        ? 'Salvando alterações...'
+                                        : 'Salvar alterações'}
                                 </Button>
                             </div>
                         </CardContent>
@@ -374,8 +394,12 @@ export function ProfileContent({ user }: ProfileContentProps) {
                     <Button
                         className="bg-red-600 text-white hover:bg-red-400"
                         onClick={handleLogout}
+                        disabled={isLoggingOut}
                     >
-                        Sair da conta
+                        {isLoggingOut && (
+                            <Loader className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        {isLoggingOut ? 'Saindo...' : 'Sair da conta'}
                     </Button>
                 </section>
             </Form>
