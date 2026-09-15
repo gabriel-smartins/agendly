@@ -3,8 +3,10 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
+import { LabelSubscription } from '@/components/ui/label-subscription'
 import { Skeleton } from '@/components/ui/skeleton'
 import getSession from '@/lib/getSession'
+import { checkSubscription } from '@/utils/permissions/checkSubscription'
 import { Appointments } from './_components/appointments/appointments'
 import { ButtonCopyLink } from './_components/button-copy-link'
 import { Reminders } from './_components/reminder/reminders'
@@ -36,6 +38,8 @@ export default async function Dashboard() {
         redirect('/')
     }
 
+    const subscription = await checkSubscription(session?.user?.id!)
+
     return (
         <div>
             <main>
@@ -51,14 +55,25 @@ export default async function Dashboard() {
                     </Link>
                     <ButtonCopyLink userId={session.user?.id!} />
                 </div>
+                {subscription?.subscriptionStatus === 'EXPIRED' && (
+                    <LabelSubscription expired={true} />
+                )}
 
-                <Suspense fallback={<DashboardSkeleton />}>
-                    <section className="grid grid-cols-1 gap-4 lg:grid-cols-2 mt-4">
-                        <Appointments userId={session.user?.id} />
+                {subscription?.subscriptionStatus === 'TRIAL' && (
+                    <div className="bg-emerald-500 text-white text-sm md:text-base px-3 py-2 my-2 rounded-md">
+                        <p className="font-semibold">{subscription?.message}</p>
+                    </div>
+                )}
 
-                        <Reminders userId={session.user?.id!} />
-                    </section>
-                </Suspense>
+                {subscription?.subscriptionStatus !== 'EXPIRED' && (
+                    <Suspense fallback={<DashboardSkeleton />}>
+                        <section className="grid grid-cols-1 gap-4 lg:grid-cols-2 mt-4">
+                            <Appointments userId={session.user?.id} />
+
+                            <Reminders userId={session.user?.id!} />
+                        </section>
+                    </Suspense>
+                )}
             </main>
         </div>
     )
