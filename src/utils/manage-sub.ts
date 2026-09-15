@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
 import { Plan } from '@/generated/prisma/enums'
 import { errorAction } from '@/lib/action-result'
 import prisma from '@/lib/prisma'

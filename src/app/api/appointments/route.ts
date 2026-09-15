@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
 import { errorAction, successAction } from '@/lib/action-result'
+import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 
 export const GET = auth(async function GET(request) {

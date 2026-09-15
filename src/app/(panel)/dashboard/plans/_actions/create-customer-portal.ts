@@ -1,6 +1,6 @@
 'use server'
 
-import { errorAction, successAction } from '@/lib/action-result' // Importe aqui
+import { errorAction, successAction } from '@/lib/action-result'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { stripe } from '@/utils/stripe'

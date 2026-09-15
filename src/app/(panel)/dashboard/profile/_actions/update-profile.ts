@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { auth } from '@/lib/auth'
 import { errorAction, successAction } from '@/lib/action-result'
+import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 
 const updateSchema = z.object({
