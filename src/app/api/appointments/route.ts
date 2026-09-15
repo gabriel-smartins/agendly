@@ -17,19 +17,32 @@ export const GET = auth(async function GET(request) {
     const userId = request.auth?.user?.id
 
     if (!dateString) {
-        return NextResponse.json(errorAction('Data não informada!'), {
+        return NextResponse.json(errorAction('Data não informada.'), {
             status: 400,
         })
     }
 
     if (!userId) {
-        return NextResponse.json(errorAction('Usuário não encontrado!'), {
-            status: 404,
+        return NextResponse.json(errorAction('Usuário não autenticado.'), {
+            status: 401,
         })
     }
 
     try {
         const [year, month, day] = dateString.split('-').map(Number)
+
+        const parsedDate = new Date(Date.UTC(year, month - 1, day))
+
+        if (
+            !/^\d{4}-\d{2}-\d{2}$/.test(dateString) ||
+            parsedDate.getUTCFullYear() !== year ||
+            parsedDate.getUTCMonth() !== month - 1 ||
+            parsedDate.getUTCDate() !== day
+        ) {
+            return NextResponse.json(errorAction('Data inválida.'), {
+                status: 400,
+            })
+        }
 
         const startDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0))
         const endDate = new Date(
@@ -54,7 +67,7 @@ export const GET = auth(async function GET(request) {
         console.error(error)
 
         return NextResponse.json(errorAction('Falha ao buscar agendamentos.'), {
-            status: 400,
+            status: 500,
         })
     }
 })

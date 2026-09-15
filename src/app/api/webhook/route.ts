@@ -20,11 +20,22 @@ export async function POST(request: Request) {
 
     const text = await request.text()
 
-    const event = stripe.webhooks.constructEvent(
-        text,
-        sign,
-        process.env.STRIPE_SECRET_WEBHOOK_KEY as string
-    )
+    let event: Stripe.Event
+
+    try {
+        event = stripe.webhooks.constructEvent(
+            text,
+            sign,
+            process.env.STRIPE_SECRET_WEBHOOK_KEY as string
+        )
+    } catch (error) {
+        console.error(error)
+
+        return NextResponse.json(
+            errorAction('Assinatura do webhook inválida.'),
+            { status: 400 }
+        )
+    }
 
     switch (event.type) {
         case 'customer.subscription.deleted':

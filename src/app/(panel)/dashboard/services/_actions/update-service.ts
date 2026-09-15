@@ -19,7 +19,7 @@ export async function updateService(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return errorAction('Falha ao atualizar serviço')
+        return errorAction('Usuário não autenticado.')
     }
 
     const schema = formSchema.safeParse(formData)
@@ -47,6 +47,6 @@ export async function updateService(formData: FormSchema) {
     } catch (error) {
         console.error(error)
 
-        return errorAction('Falha ao atualizar serviço')
+        return errorAction('Falha ao atualizar serviço.')
     }
 }

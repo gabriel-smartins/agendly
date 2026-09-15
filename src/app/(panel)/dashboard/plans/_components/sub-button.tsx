@@ -12,17 +12,17 @@ interface SubButtonProps {
 
 export function SubButton({ plan }: SubButtonProps) {
     async function handleBilling() {
-        const { sessionId, url, error } = await createSub({ plan: plan })
+        const response = await createSub({ plan })
 
-        if (error) {
-            toast.error(error.error)
+        if (!response.success) {
+            toast.error(response.error)
             return
         }
 
         const stripe = await getStripe()
 
-        if (stripe && url) {
-            window.location.href = url
+        if (stripe && response.data.url) {
+            window.location.href = response.data.url
         }
     }
 

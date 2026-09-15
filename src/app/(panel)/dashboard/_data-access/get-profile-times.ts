@@ -24,7 +24,7 @@ export async function getProfileTimes({ userId }: GetProfileTimesProps) {
         })
 
         if (!user) {
-            return errorAction(`Usuário com o id: ${userId} não encontrado.`)
+            return errorAction('Usuário não encontrado.')
         }
 
         return successAction({

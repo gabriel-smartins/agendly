@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
     if (!userId || userId === 'null' || !dateParam || dateParam === 'null') {
         return NextResponse.json(
-            errorAction('Nenhum agendamento encontrado.'),
+            errorAction('Os parâmetros de usuário e data são obrigatórios.'),
             {
                 status: 400,
             }
@@ -19,6 +19,20 @@ export async function GET(request: NextRequest) {
 
     try {
         const [year, month, day] = dateParam.split('-').map(Number)
+
+        const parsedDate = new Date(Date.UTC(year, month - 1, day))
+
+        if (
+            !/^\d{4}-\d{2}-\d{2}$/.test(dateParam) ||
+            parsedDate.getUTCFullYear() !== year ||
+            parsedDate.getUTCMonth() !== month - 1 ||
+            parsedDate.getUTCDate() !== day
+        ) {
+            return NextResponse.json(errorAction('Data inválida.'), {
+                status: 400,
+            })
+        }
+
         const startDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0))
         const endDate = new Date(
             Date.UTC(year, month - 1, day, 23, 59, 59, 999)
@@ -76,9 +90,9 @@ export async function GET(request: NextRequest) {
         console.error(error)
 
         return NextResponse.json(
-            errorAction('Nenhum agendamento encontrado.'),
+            errorAction('Falha ao buscar horários disponíveis.'),
             {
-                status: 400,
+                status: 500,
             }
         )
     }

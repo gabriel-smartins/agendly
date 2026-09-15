@@ -18,7 +18,7 @@ export async function createNewService(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return errorAction('Falha ao cadastrar serviço')
+        return errorAction('Usuário não autenticado.')
     }
 
     const schema = formSchema.safeParse(formData)
@@ -42,6 +42,6 @@ export async function createNewService(formData: FormSchema) {
         return successAction(newService)
     } catch (error) {
         console.error(error)
-        return errorAction('Falha ao cadastrar serviço')
+        return errorAction('Falha ao cadastrar serviço.')
     }
 }

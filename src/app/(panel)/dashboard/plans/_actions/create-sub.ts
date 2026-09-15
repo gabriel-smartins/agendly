@@ -1,7 +1,7 @@
 'use server'
 
 import { Plan } from '@/generated/prisma/enums'
-import { errorAction } from '@/lib/action-result'
+import { errorAction, successAction } from '@/lib/action-result'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { stripe } from '@/utils/stripe'
@@ -15,9 +15,7 @@ export async function createSub({ plan }: SubProps) {
     const userId = session?.user?.id
 
     if (!userId) {
-        return {
-            error: errorAction('Falha ao ativar plano.'),
-        }
+        return errorAction('Usuário não autenticado.')
     }
 
     const user = await prisma.user.findFirst({
@@ -27,9 +25,7 @@ export async function createSub({ plan }: SubProps) {
     })
 
     if (!user) {
-        return {
-            error: errorAction('Usuário não encontrado.'),
-        }
+        return errorAction('Usuário não encontrado.')
     }
 
     let customerId = user.stripe_customer_id
@@ -74,15 +70,13 @@ export async function createSub({ plan }: SubProps) {
             cancel_url: process.env.STRIPE_CANCEL_URL,
         })
 
-        return {
+        return successAction({
             sessionId: stripeCheckout.id,
             url: stripeCheckout.url,
-        }
+        })
     } catch (error) {
         console.error(error)
 
-        return {
-            error: errorAction('Falha ao ativar plano.'),
-        }
+        return errorAction('Falha ao ativar plano.')
     }
 }

@@ -16,7 +16,7 @@ export async function deleteService(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return errorAction('Falha ao deletar serviço')
+        return errorAction('Usuário não autenticado.')
     }
 
     const schema = formSchema.safeParse(formData)
@@ -42,6 +42,6 @@ export async function deleteService(formData: FormSchema) {
     } catch (error) {
         console.error(error)
 
-        return errorAction('Falha ao deletar serviço')
+        return errorAction('Falha ao deletar serviço.')
     }
 }

@@ -34,6 +34,6 @@ export async function getInfoSchedule({ userId }: GetInfoScheduleProps) {
         return successAction(user)
     } catch (error) {
         console.error(error)
-        return errorAction('Erro ao buscar usuário.')
+        return errorAction('Falha ao buscar usuário.')
     }
 }

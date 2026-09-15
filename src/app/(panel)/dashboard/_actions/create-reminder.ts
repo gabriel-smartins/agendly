@@ -18,7 +18,7 @@ export async function createReminder(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return errorAction('Falha ao cadastrar lembrete.')
+        return errorAction('Usuário não autenticado.')
     }
 
     const schema = formSchema.safeParse(formData)

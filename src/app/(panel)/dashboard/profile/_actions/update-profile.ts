@@ -21,7 +21,7 @@ export async function updateProfile(updateData: UpdateSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return errorAction('Usuário não encontrado.')
+        return errorAction('Usuário não autenticado.')
     }
 
     const schema = updateSchema.safeParse(updateData)
@@ -49,7 +49,7 @@ export async function updateProfile(updateData: UpdateSchema) {
 
         return successAction('Dados atualizados com sucesso!')
     } catch (error) {
-        console.log(error)
+        console.error(error)
 
         return errorAction('Falha ao atualizar dados.')
     }

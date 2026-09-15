@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'
 
 export async function getAllServices({ userId }: { userId: string }) {
     if (!userId) {
-        return errorAction('Falha ao buscar serviços')
+        return errorAction('O ID do usuário não foi fornecido.')
     }
 
     try {
@@ -19,6 +19,6 @@ export async function getAllServices({ userId }: { userId: string }) {
         return successAction(services)
     } catch (error) {
         console.error(error)
-        return errorAction('Falha ao buscar serviços')
+        return errorAction('Falha ao buscar serviços.')
     }
 }

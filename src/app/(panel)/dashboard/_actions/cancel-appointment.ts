@@ -18,7 +18,7 @@ export async function cancelAppointment(formData: FormSchema) {
     const session = await auth()
 
     if (!session?.user?.id) {
-        return errorAction('Falha ao cancelar agendamento.')
+        return errorAction('Usuário não autenticado.')
     }
 
     const schema = formSchema.safeParse(formData)
@@ -37,7 +37,7 @@ export async function cancelAppointment(formData: FormSchema) {
 
         revalidatePath('/dashboard')
 
-        return successAction('Agendamendo cancelado com sucesso!')
+        return successAction('Agendamento cancelado com sucesso!')
     } catch (error) {
         console.error(error)
 
