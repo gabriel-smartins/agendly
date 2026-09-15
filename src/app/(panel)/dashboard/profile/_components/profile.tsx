@@ -38,6 +38,7 @@ import { Prisma } from '@/generated/prisma/client'
 import { cn } from '@/lib/utils'
 import { maskPhone } from '@/utils/mask-phone'
 import { updateProfile } from '../_actions/update-profile'
+import { ProfileAvatar } from './profile-avatar'
 import { ProfileFormData, useProfileForm } from './profile-form'
 
 type UserWithSubscription = Prisma.UserGetPayload<{
@@ -147,14 +148,10 @@ export function ProfileContent({ user }: ProfileContentProps) {
                         </CardHeader>
                         <CardContent className="space-y-6">
                             <div className="flex justify-center">
-                                <div className="bg-gray-200 relative h-40 w-40 rounded-full overflow-hidden">
-                                    <Image
-                                        src={user.image ? user.image : imgTeste}
-                                        alt="Foto de perfil"
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
+                                <ProfileAvatar
+                                    avatarUrl={user.image}
+                                    userId={user.id}
+                                />
                             </div>
 
                             <div className="space-y-4">
