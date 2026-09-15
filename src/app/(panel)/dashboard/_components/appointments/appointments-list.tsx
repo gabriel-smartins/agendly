@@ -10,11 +10,11 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Skeleton } from '@/components/ui/skeleton'
 import { Prisma } from '@/generated/prisma/client'
 import { cancelAppointment } from '../../_actions/cancel-appointment'
 import { DatePickerButton } from './date-picker-button'
 import { DialogAppointment } from './dialog-appointments'
+import { AppointmentsSkeleton } from './appointments-skeleton'
 
 interface AppointmentsListProps {
     times: string[]
@@ -125,97 +125,87 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
 
                 <CardContent>
                     <ScrollArea className="h-[calc(100vh-20rem)] lg:h-[calc(100vh-15rem)] pr-4">
-                        {isLoading
-                            ? Array.from({ length: 6 }).map((_, index) => (
-                                  <div
-                                      key={index}
-                                      className="flex items-center border-t py-2 last:border-b"
-                                  >
-                                      <Skeleton className="mr-3 h-4 w-14" />
-                                      <div className="flex-1 space-y-2">
-                                          <Skeleton className="h-4 w-28" />
-                                          <Skeleton className="h-3 w-24" />
-                                      </div>
-                                      <Skeleton className="ml-4 h-8 w-8 rounded-md" />
-                                  </div>
-                              ))
-                            : cleanTimes.map((slot) => {
-                                  const occupant = occupantMap[slot]
+                        {isLoading ? (
+                            <AppointmentsSkeleton />
+                        ) : (
+                            cleanTimes.map((slot) => {
+                                const occupant = occupantMap[slot]
 
-                                  if (occupant) {
-                                      return (
-                                          <div
-                                              key={slot}
-                                              className="flex items-center py-2 border-t last:border-b"
-                                          >
-                                              <div className="w-16 text-sm font-semibold">
-                                                  {slot}
-                                              </div>
-                                              <div className="flex-1 text-sm">
-                                                  <div className="font-semibold">
-                                                      {occupant.name}
-                                                  </div>
-                                                  <div className="text-sm text-gray-500">
-                                                      {occupant.phone}
-                                                  </div>
-                                              </div>
-                                              <div className="ml-auto">
-                                                  <div className="flex">
-                                                      <DialogTrigger asChild>
-                                                          <Button
-                                                              variant="ghost"
-                                                              size="icon"
-                                                              className="hover:bg-gray-100"
-                                                              onClick={() =>
-                                                                  setDetailAppointment(
-                                                                      occupant
-                                                                  )
-                                                              }
-                                                          >
-                                                              <Eye className="w-4 h-4" />
-                                                          </Button>
-                                                      </DialogTrigger>
-                                                      <Button
-                                                          variant="ghost"
-                                                          size="icon"
-                                                          className="hover:bg-gray-100"
-                                                          onClick={() =>
-                                                              handleCancelAppointment(
-                                                                  occupant.id
-                                                              )
-                                                          }
-                                                          disabled={
-                                                              cancellingAppointmentId ===
-                                                              occupant.id
-                                                          }
-                                                      >
-                                                          {cancellingAppointmentId ===
-                                                          occupant.id ? (
-                                                              <Loader className="h-4 w-4 animate-spin" />
-                                                          ) : (
-                                                              <X className="w-4 h-4" />
-                                                          )}
-                                                      </Button>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      )
-                                  }
+                                if (occupant) {
+                                    return (
+                                        <div
+                                            key={slot}
+                                            className="flex items-center py-2 border-t last:border-b"
+                                        >
+                                            <div className="w-16 text-sm font-semibold">
+                                                {slot}
+                                            </div>
+                                            <div className="flex-1 text-sm">
+                                                <div className="font-semibold">
+                                                    {occupant.name}
+                                                </div>
+                                                <div className="text-sm text-gray-500">
+                                                    {occupant.phone}
+                                                </div>
+                                            </div>
+                                            <div className="ml-auto">
+                                                <div className="flex">
+                                                    <DialogTrigger asChild>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="hover:bg-gray-100"
+                                                            onClick={() =>
+                                                                setDetailAppointment(
+                                                                    occupant
+                                                                )
+                                                            }
+                                                        >
+                                                            <Eye className="w-4 h-4" />
+                                                        </Button>
+                                                    </DialogTrigger>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="hover:bg-gray-100"
+                                                        onClick={() =>
+                                                            handleCancelAppointment(
+                                                                occupant.id
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            cancellingAppointmentId ===
+                                                            occupant.id
+                                                        }
+                                                    >
+                                                        {cancellingAppointmentId ===
+                                                        occupant.id ? (
+                                                            <Loader className="h-4 w-4 animate-spin" />
+                                                        ) : (
+                                                            <X className="w-4 h-4" />
+                                                        )}
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
 
-                                  return (
-                                      <div
-                                          key={slot}
-                                          className="flex items-center py-2 border-t last:border-b"
-                                      >
-                                          <div className="w-16 text-sm font-semibold">
-                                              {slot}
-                                          </div>
-                                          <div className="flex-1 text-sm text-gray-500">
-                                              Disponível
-                                          </div>
-                                      </div>
-                                  )
-                              })}
+                                return (
+                                    <div
+                                        key={slot}
+                                        className="flex items-center py-2 border-t last:border-b"
+                                    >
+                                        <div className="w-16 text-sm font-semibold">
+                                            {slot}
+                                        </div>
+                                        <div className="flex-1 text-sm text-gray-500">
+                                            Disponível
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        )}
                     </ScrollArea>
                 </CardContent>
             </Card>
