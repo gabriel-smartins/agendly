@@ -1,22 +1,25 @@
 'use client'
 
 import { Pencil, PlusIcon, X } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Service } from '@/generated/prisma/client'
+import { convertCentsToReal } from '@/utils/convertCurrency'
 import { formatCurrency } from '@/utils/formatCurrency'
+import { ResponsePermissionProp } from '@/utils/permissions/hasPermission'
 import { deleteService } from '../_actions/delete-service'
 import { DialogService } from './dialog-service'
-import { convertCentsToReal } from '@/utils/convertCurrency'
 
 interface ServicesListProps {
     services: Service[]
+    permission: ResponsePermissionProp
 }
 
-export function ServicesList({ services }: ServicesListProps) {
+export function ServicesList({ services, permission }: ServicesListProps) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [editing, setEditing] = useState<null | Service>(null)
 
@@ -53,11 +56,23 @@ export function ServicesList({ services }: ServicesListProps) {
                         <CardTitle className="text-xl md:text-2xl font-bold">
                             Serviços
                         </CardTitle>
-                        <DialogTrigger asChild>
-                            <Button className="bg-neutral-950 hover:bg-neutral-800">
-                                <PlusIcon className="w-4 h-4 text-white" />
-                            </Button>
-                        </DialogTrigger>
+                        {permission.hasPermission && (
+                            <DialogTrigger asChild>
+                                <Button className="bg-neutral-950 hover:bg-neutral-800">
+                                    <PlusIcon className="w-4 h-4 text-white" />
+                                </Button>
+                            </DialogTrigger>
+                        )}
+
+                        {!permission.hasPermission && (
+                            <Link
+                                href="/dashboard/plans"
+                                className="text-red-500"
+                            >
+                                Limite de serviços do seu plano atingido
+                            </Link>
+                        )}
+
                         <DialogContent
                             className="bg-white"
                             onInteractOutside={(e) => {
