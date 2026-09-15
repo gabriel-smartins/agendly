@@ -4,32 +4,12 @@ import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { LabelSubscription } from '@/components/ui/label-subscription'
-import { Skeleton } from '@/components/ui/skeleton'
 import getSession from '@/lib/getSession'
 import { checkSubscription } from '@/utils/permissions/checkSubscription'
 import { Appointments } from './_components/appointments/appointments'
 import { ButtonCopyLink } from './_components/button-copy-link'
+import { DashboardSkeleton } from './_components/dashboard-skeleton'
 import { Reminders } from './_components/reminder/reminders'
-
-function DashboardSkeleton() {
-    return (
-        <section className="grid grid-cols-1 gap-4 lg:grid-cols-2 mt-4">
-            <div className="rounded-xl border bg-card p-4 space-y-4">
-                <Skeleton className="h-7 w-32" />
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-            </div>
-
-            <div className="rounded-xl border bg-card p-4 space-y-4">
-                <Skeleton className="h-7 w-32" />
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-            </div>
-        </section>
-    )
-}
 
 export default async function Dashboard() {
     const session = await getSession()
