@@ -20,14 +20,17 @@ export function ProfileAvatar({ avatarUrl, userId }: AvatarProfileProps) {
     const { update } = useSession()
 
     async function handleChangeAvatar(e: ChangeEvent<HTMLInputElement>) {
-        if (e.target.files && e.target.files[0]) {
-            setIsLoading(true)
-            const image = e.target.files[0]
+        const image = e.target.files?.[0]
 
+        if (!image) {
+            return
+        }
+
+        setIsLoading(true)
+
+        try {
             if (
-                image.type !== 'image/jpeg' &&
-                image.type !== 'image/png' &&
-                image.type !== 'image/jpg'
+                !['image/jpeg', 'image/png', 'image/jpg'].includes(image.type)
             ) {
                 toast.error('Formato de imagem inválido.')
                 return
@@ -35,22 +38,28 @@ export function ProfileAvatar({ avatarUrl, userId }: AvatarProfileProps) {
 
             const fileName = `profile-${userId}`
             const newFile = new File([image], fileName, { type: image.type })
-
             const urlImage = await uploadImg(newFile)
 
-            if (!urlImage || urlImage === '') {
+            if (!urlImage) {
                 toast.error('Falha ao alterar imagem.')
                 return
             }
 
+            const response = await updateAvatar({ avatarUrl: urlImage })
+
+            if (response.error) {
+                toast.error(response.error)
+                return
+            }
+
             setPreviewImg(urlImage)
-
-            await updateAvatar({ avatarUrl: urlImage })
-            await update({
-                image: urlImage,
-            })
-
+            await update({ image: urlImage })
+        } catch (error) {
+            console.error(error)
+            toast.error('Falha ao alterar imagem.')
+        } finally {
             setIsLoading(false)
+            e.target.value = ''
         }
     }
 
@@ -71,9 +80,9 @@ export function ProfileAvatar({ avatarUrl, userId }: AvatarProfileProps) {
                 }
             )
 
-            const data = await response.json()
+            const data = await response.json().catch(() => null)
 
-            if (!response.ok) {
+            if (!response.ok || !data?.secure_url) {
                 return null
             }
 
@@ -102,7 +111,8 @@ export function ProfileAvatar({ avatarUrl, userId }: AvatarProfileProps) {
 
                 <input
                     type="file"
-                    className="opacity-0 cursor-pointer relative z-50 w-48 h-48"
+                    accept="image/jpeg,image/png"
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                     onChange={handleChangeAvatar}
                 />
             </div>

@@ -165,7 +165,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    className="placeholder:text-gray-400"
+                                                    className="placeholder:text-slate-400"
                                                     {...field}
                                                     placeholder="Digite o nome da clínica..."
                                                 />
@@ -185,7 +185,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    className="placeholder:text-gray-400"
+                                                    className="placeholder:text-slate-400"
                                                     {...field}
                                                     placeholder="Digite o endereço da clínica..."
                                                 />
@@ -205,7 +205,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    className="placeholder:text-gray-400"
+                                                    className="placeholder:text-slate-400"
                                                     {...field}
                                                     placeholder="ex: (99) 91111-1111"
                                                     onChange={(e) => {
@@ -274,6 +274,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                     >
                                         <DialogTrigger asChild>
                                             <Button
+                                                type="button"
                                                 variant="outline"
                                                 className="w-full justify-between"
                                             >
@@ -303,6 +304,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                                 <div className="grid grid-cols-5 gap-2">
                                                     {hours.map((hour) => (
                                                         <Button
+                                                            type="button"
                                                             key={hour}
                                                             variant="outline"
                                                             className={cn(
@@ -310,7 +312,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                                                 selectedHours.includes(
                                                                     hour
                                                                 ) &&
-                                                                    'border-2 border-emerald-500 text-primary'
+                                                                    'border-2 border-blue-600 bg-blue-600 text-white'
                                                             )}
                                                             onClick={() =>
                                                                 toggleHour(hour)
@@ -323,7 +325,8 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                             </section>
 
                                             <Button
-                                                className="bg-emerald-500 text-white hover:bg-emerald-400 w-full"
+                                                type="button"
+                                                className="bg-blue-600 text-white hover:bg-blue-700 w-full"
                                                 onClick={() =>
                                                     setDialogIsOpen(false)
                                                 }
@@ -372,7 +375,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                 />
                                 <Button
                                     type="submit"
-                                    className="bg-emerald-500 hover:bg-emerald-400 text-white w-full"
+                                    className="bg-blue-600 hover:bg-blue-700 text-white w-full"
                                     disabled={isSubmitting}
                                 >
                                     {isSubmitting && (
@@ -389,7 +392,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
                 <section className="mt-4">
                     <Button
-                        className="bg-red-600 text-white hover:bg-red-400"
+                        className="bg-rose-600 text-white hover:bg-rose-700"
                         onClick={handleLogout}
                         disabled={isLoggingOut}
                     >
