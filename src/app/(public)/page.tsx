@@ -1,6 +1,13 @@
 import { Footer } from './_components/footer'
 import { Header } from './_components/header'
 import { Hero } from './_components/hero'
+import {
+    BusinessCta,
+    HowItWorks,
+    PlatformBenefits,
+    ServiceCategories,
+    SupportNote,
+} from './_components/home-sections'
 import { ProfilesList } from './_components/profiles-list'
 import { getProfiles } from './_data-access/get-profiles'
 
@@ -29,6 +36,8 @@ export default async function Home() {
 
             <div>
                 <Hero />
+                <HowItWorks />
+                <ServiceCategories />
                 <ProfilesList
                     profiles={
                         result.success
@@ -36,6 +45,9 @@ export default async function Home() {
                             : []
                     }
                 />
+                <PlatformBenefits />
+                <BusinessCta />
+                <SupportNote />
                 <Footer />
             </div>
         </div>
