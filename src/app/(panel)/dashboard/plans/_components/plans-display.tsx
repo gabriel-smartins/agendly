@@ -15,10 +15,10 @@ export function PlansDisplay() {
             {subscriptionPlans.map((plan, index) => (
                 <Card
                     key={plan.id}
-                    className={`flex flex-col w-full mx-auto ${index === 1 && ' border-emerald-500'}`}
+                    className={`flex flex-col w-full mx-auto ${index === 1 && ' border-blue-600'}`}
                 >
                     {index === 1 && (
-                        <div className="bg-emerald-500 w-full py-3 text-center rounded-t-xl">
+                        <div className="bg-blue-600 w-full py-3 text-center rounded-t-xl">
                             <p className="font-semibold text-white">
                                 PROMOÇÃO EXCLUSIVA
                             </p>
@@ -44,7 +44,7 @@ export function PlansDisplay() {
                         </ul>
 
                         <div className="mt-4">
-                            <p className="text-gray-600 line-through">
+                            <p className="text-slate-500 line-through">
                                 {plan.price}
                             </p>
                             <p className="text-black text-2xl font-bold">

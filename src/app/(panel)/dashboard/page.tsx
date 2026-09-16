@@ -28,7 +28,7 @@ export default async function Dashboard() {
                         href={`/scheduling/${session.user?.id!}`}
                         target="_blank"
                     >
-                        <Button className="bg-emerald-500 hover:bg-emerald-400 text-white flex-1 md:flex[0]">
+                        <Button className="bg-teal-600 hover:bg-teal-700 text-white flex-1 md:flex[0]">
                             <Calendar className="w-5 h-5" />
                             <span>Novo agendamento</span>
                         </Button>
@@ -40,7 +40,7 @@ export default async function Dashboard() {
                 )}
 
                 {subscription?.subscriptionStatus === 'TRIAL' && (
-                    <div className="bg-emerald-500 text-white text-sm md:text-base px-3 py-2 my-2 rounded-md">
+                    <div className="bg-emerald-600 text-white text-sm md:text-base px-3 py-2 my-2 rounded-md">
                         <p className="font-semibold">{subscription?.message}</p>
                     </div>
                 )}

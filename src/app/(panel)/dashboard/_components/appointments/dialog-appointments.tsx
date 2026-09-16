@@ -56,7 +56,7 @@ export function DialogAppointment({ appointment }: DialogAppointmentProps) {
                             {appointment.email}
                         </p>
 
-                        <section className="bg-gray-100 mt-4 p-2 rounded-md">
+                        <section className="bg-slate-100 mt-4 p-2 rounded-md">
                             <p>
                                 <span className="font-semibold">Serviço:</span>{' '}
                                 {appointment.service.name}

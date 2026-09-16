@@ -144,7 +144,7 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                                                 <div className="font-semibold">
                                                     {occupant.name}
                                                 </div>
-                                                <div className="text-sm text-gray-500">
+                                                <div className="text-sm text-slate-500">
                                                     {occupant.phone}
                                                 </div>
                                             </div>
@@ -154,7 +154,7 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="hover:bg-gray-100"
+                                                            className="hover:bg-slate-100"
                                                             onClick={() =>
                                                                 setDetailAppointment(
                                                                     occupant
@@ -167,7 +167,7 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        className="hover:bg-gray-100"
+                                                        className="hover:bg-slate-100"
                                                         onClick={() =>
                                                             handleCancelAppointment(
                                                                 occupant.id
@@ -199,7 +199,7 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                                         <div className="w-16 text-sm font-semibold">
                                             {slot}
                                         </div>
-                                        <div className="flex-1 text-sm text-gray-500">
+                                        <div className="flex-1 text-sm text-slate-500">
                                             Disponível
                                         </div>
                                     </div>

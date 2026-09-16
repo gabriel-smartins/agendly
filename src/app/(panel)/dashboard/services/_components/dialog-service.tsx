@@ -160,10 +160,10 @@ export function DialogService({
                                         <Input
                                             {...field}
                                             placeholder="Digite o nome do serviço..."
-                                            className="placeholder:text-gray-400"
+                                            className="placeholder:text-slate-400"
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-red-800" />
+                                    <FormMessage className="text-rose-600" />
                                 </FormItem>
                             )}
                         />
@@ -180,7 +180,7 @@ export function DialogService({
                                         <Input
                                             {...field}
                                             placeholder="ex: 120,00"
-                                            className="placeholder:text-gray-400"
+                                            className="placeholder:text-slate-400"
                                             onChange={(e) =>
                                                 handleCurrencyChange(
                                                     e,
@@ -189,7 +189,7 @@ export function DialogService({
                                             }
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-red-800" />
+                                    <FormMessage className="text-rose-600" />
                                 </FormItem>
                             )}
                         />
@@ -212,7 +212,7 @@ export function DialogService({
                                             placeholder="1"
                                             min="0"
                                             type="number"
-                                            className="placeholder:text-gray-400"
+                                            className="placeholder:text-slate-400"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -234,7 +234,7 @@ export function DialogService({
                                             placeholder="0"
                                             min="0"
                                             type="number"
-                                            className="placeholder:text-gray-400"
+                                            className="placeholder:text-slate-400"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -245,7 +245,7 @@ export function DialogService({
 
                     <Button
                         type="submit"
-                        className="w-full font-semibold text-white bg-emerald-500 mt-2"
+                        className="w-full font-semibold text-white bg-blue-600 hover:bg-blue-700 mt-2"
                         disabled={loading}
                     >
                         {loading && (

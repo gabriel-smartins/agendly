@@ -1,8 +1,12 @@
 'use client'
 
+import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import clsx from 'clsx'
+import { Button } from '@/components/ui/button'
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
 import {
     Sheet,
     SheetContent,
@@ -10,7 +14,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
 import {
     Banknote,
     CalendarCheck2,
@@ -20,10 +23,7 @@ import {
     List,
     Settings,
 } from 'lucide-react'
-import Link from 'next/link'
-import Image from 'next/image'
-import logoImage from '@/../public/logo-odonto.png'
-import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
+import logoImage from '@/../public/logo.png'
 
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
     const pathName = usePathname()
@@ -53,7 +53,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <Button
-                    className="bg-gray-100 hover-bg-gray-50 text-zinc-900 self-end"
+                    className="bg-slate-100 hover:bg-slate-50 text-slate-800 self-end"
                     onClick={() => setIsCollapsed(!isCollapsed)}
                 >
                     {!isCollapsed ? (
@@ -102,7 +102,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <Collapsible open={!isCollapsed}>
                     <CollapsibleContent>
                         <nav className="flex flex-col gap-1 overflow-hidden">
-                            <span className="text-sm text-gray-400 font-medium mt-1 uppercase">
+                            <span className="text-sm text-slate-400 font-medium mt-1 uppercase">
                                 Painel
                             </span>
 
@@ -122,7 +122,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                 isCollasped={isCollapsed}
                             />
 
-                            <span className="text-sm text-gray-400 font-medium mt-1 uppercase">
+                            <span className="text-sm text-slate-400 font-medium mt-1 uppercase">
                                 Configurações
                             </span>
 
@@ -242,8 +242,9 @@ function SidebarLinks({
                 className={clsx(
                     'flex items-center gap-2 px-3 py-2 rounded-md transition-colors',
                     {
-                        'text-white bg-blue-500': pathName === href,
-                        'text-gray-700 hover:bg-gray-200': pathName !== href,
+                        'text-white bg-blue-600': pathName === href,
+                        'text-slate-700 hover:bg-blue-50 hover:text-blue-700':
+                            pathName !== href,
                     }
                 )}
             >

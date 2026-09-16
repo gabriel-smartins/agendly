@@ -59,7 +59,7 @@ export function SubscriptionDetail({ subscription }: SubscriptionDetailProps) {
                             : 'PROFISSIONAL'}
                     </h3>
 
-                    <div className="bg-green-500 text-white w-fit px-4 py-1 rounded-md">
+                    <div className="bg-emerald-500 text-white w-fit px-4 py-1 rounded-md">
                         {subscription.status === 'active'
                             ? 'ATIVO '
                             : 'INATIVO'}
@@ -76,7 +76,7 @@ export function SubscriptionDetail({ subscription }: SubscriptionDetailProps) {
 
             <CardFooter>
                 <Button
-                    className="bg-black text-white hover:bg-gray-700"
+                    className="bg-slate-800 text-white hover:bg-slate-700"
                     onClick={handleManageSubscription}
                     disabled={isLoading}
                 >

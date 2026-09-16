@@ -50,10 +50,11 @@ export function ScheduleTimeList({
                         variant="outline"
                         key={slot.time}
                         className={cn(
-                            'h-10 select-none hover:bg-gray-200',
+                            'h-10 select-none border-slate-200 bg-white text-slate-700 hover:bg-blue-50 hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600',
                             selectedTime === slot.time &&
-                                'border-2 border-emerald-500 text-primary',
-                            !slotEnabled && 'opacity-50 cursor-not-allowed'
+                                'border-blue-600 bg-blue-600 text-white hover:bg-blue-700 hover:text-white',
+                            !slotEnabled &&
+                                'border-slate-200 bg-slate-100 text-slate-400 opacity-100 cursor-not-allowed hover:bg-slate-100 hover:text-slate-400'
                         )}
                         disabled={!slotEnabled}
                         onClick={() => slotEnabled && onSelectTime(slot.time)}

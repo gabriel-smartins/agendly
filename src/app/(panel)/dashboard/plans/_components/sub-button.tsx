@@ -38,7 +38,7 @@ export function SubButton({ plan }: SubButtonProps) {
 
     return (
         <Button
-            className={`w-full text-white bg-slate-950 hover:bg-slate-800 ${plan === 'PROFESSIONAL' && 'bg-emerald-500 hover:bg-emerald-400'}`}
+            className={`w-full text-white bg-slate-800 hover:bg-slate-700 ${plan === 'PROFESSIONAL' && 'bg-blue-600 hover:bg-blue-700'}`}
             onClick={handleBilling}
             disabled={isLoading}
         >

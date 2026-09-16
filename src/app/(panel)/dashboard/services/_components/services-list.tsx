@@ -67,7 +67,7 @@ export function ServicesList({ services, permission }: ServicesListProps) {
                         {!permission.hasPermission && (
                             <Link
                                 href="/dashboard/plans"
-                                className="text-red-500"
+                                className="text-rose-600"
                             >
                                 Limite de serviços do seu plano atingido
                             </Link>
@@ -119,8 +119,10 @@ export function ServicesList({ services, permission }: ServicesListProps) {
                                         <span className="font-semibold">
                                             {service.name}
                                         </span>
-                                        <span className="text-gray-500">-</span>
-                                        <span className="text-gray-500">
+                                        <span className="text-slate-500">
+                                            -
+                                        </span>
+                                        <span className="text-slate-500">
                                             {formatCurrency(
                                                 service.price / 100
                                             )}
@@ -130,7 +132,7 @@ export function ServicesList({ services, permission }: ServicesListProps) {
                                         <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="hover:bg-gray-100"
+                                            className="hover:bg-slate-100"
                                             onClick={() =>
                                                 handleUpdateService(service)
                                             }
@@ -141,7 +143,7 @@ export function ServicesList({ services, permission }: ServicesListProps) {
                                         <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="hover:bg-gray-100"
+                                            className="hover:bg-slate-100"
                                             onClick={() =>
                                                 handleDeleteService(service.id)
                                             }

@@ -11,7 +11,7 @@ interface ProfilesListProps {
 
 export function ProfilesList({ profiles }: ProfilesListProps) {
     return (
-        <section className="bg-gray-50 py-16">
+        <section className="bg-slate-50 py-16">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-3xl text-center mb-12 font-bold">
                     Profissionais
@@ -40,7 +40,7 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                                             <h3 className="font-semibold">
                                                 {profile.name}
                                             </h3>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-slate-500">
                                                 {profile.address ??
                                                     'Endereço não informado'}
                                             </p>
@@ -50,7 +50,7 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                                     <Link
                                         href={`/scheduling/${profile.id}`}
                                         target="_blank"
-                                        className="bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center py-2 rounded-md text-sm md:text-base font-medium"
+                                        className="bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center py-2 rounded-md text-sm md:text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
                                     >
                                         Agendar horário
                                         <ArrowRight className="ml-2" />

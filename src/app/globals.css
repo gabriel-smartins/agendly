@@ -4,71 +4,71 @@
 
 @layer base {
     :root {
-        --background: oklch(1 0 0);
-        --foreground: oklch(0.145 0 0);
-        --card: oklch(1 0 0);
-        --card-foreground: oklch(0.145 0 0);
-        --popover: oklch(1 0 0);
-        --popover-foreground: oklch(0.145 0 0);
-        --primary: oklch(0.205 0 0);
-        --primary-foreground: oklch(0.985 0 0);
-        --secondary: oklch(0.97 0 0);
-        --secondary-foreground: oklch(0.205 0 0);
-        --muted: oklch(0.97 0 0);
-        --muted-foreground: oklch(0.556 0 0);
-        --accent: oklch(0.97 0 0);
-        --accent-foreground: oklch(0.205 0 0);
-        --destructive: oklch(0.577 0.245 27.325);
-        --border: oklch(0.922 0 0);
-        --input: oklch(0.922 0 0);
-        --ring: oklch(0.708 0 0);
-        --chart-1: oklch(0.87 0 0);
-        --chart-2: oklch(0.556 0 0);
-        --chart-3: oklch(0.439 0 0);
-        --chart-4: oklch(0.371 0 0);
-        --chart-5: oklch(0.269 0 0);
+        --background: 210 40% 98%;
+        --foreground: 222 47% 11%;
+        --card: 0 0% 100%;
+        --card-foreground: 222 47% 11%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222 47% 11%;
+        --primary: 221 83% 53%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 210 40% 96%;
+        --secondary-foreground: 215 28% 17%;
+        --muted: 210 40% 96%;
+        --muted-foreground: 215 16% 47%;
+        --accent: 214 95% 93%;
+        --accent-foreground: 221 83% 40%;
+        --destructive: 347 77% 50%;
+        --border: 214 32% 91%;
+        --input: 214 32% 91%;
+        --ring: 221 83% 53%;
+        --chart-1: 221 83% 53%;
+        --chart-2: 217 91% 60%;
+        --chart-3: 199 89% 48%;
+        --chart-4: 215 16% 47%;
+        --chart-5: 215 28% 17%;
         --radius: 0.5rem;
-        --sidebar: oklch(0.985 0 0);
-        --sidebar-foreground: oklch(0.145 0 0);
-        --sidebar-primary: oklch(0.205 0 0);
-        --sidebar-primary-foreground: oklch(0.985 0 0);
-        --sidebar-accent: oklch(0.97 0 0);
-        --sidebar-accent-foreground: oklch(0.205 0 0);
-        --sidebar-border: oklch(0.922 0 0);
-        --sidebar-ring: oklch(0.708 0 0);
+        --sidebar: 210 40% 98%;
+        --sidebar-foreground: 215 28% 17%;
+        --sidebar-primary: 221 83% 53%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 214 95% 93%;
+        --sidebar-accent-foreground: 221 83% 40%;
+        --sidebar-border: 214 32% 91%;
+        --sidebar-ring: 221 83% 53%;
     }
     .dark {
-        --background: oklch(0.145 0 0);
-        --foreground: oklch(0.985 0 0);
-        --card: oklch(0.205 0 0);
-        --card-foreground: oklch(0.985 0 0);
-        --popover: oklch(0.205 0 0);
-        --popover-foreground: oklch(0.985 0 0);
-        --primary: oklch(0.922 0 0);
-        --primary-foreground: oklch(0.205 0 0);
-        --secondary: oklch(0.269 0 0);
-        --secondary-foreground: oklch(0.985 0 0);
-        --muted: oklch(0.269 0 0);
-        --muted-foreground: oklch(0.708 0 0);
-        --accent: oklch(0.269 0 0);
-        --accent-foreground: oklch(0.985 0 0);
-        --destructive: oklch(0.704 0.191 22.216);
-        --border: oklch(1 0 0 / 10%);
-        --input: oklch(1 0 0 / 15%);
-        --ring: oklch(0.556 0 0);
-        --chart-1: oklch(0.87 0 0);
-        --chart-2: oklch(0.556 0 0);
-        --chart-3: oklch(0.439 0 0);
-        --chart-4: oklch(0.371 0 0);
-        --chart-5: oklch(0.269 0 0);
-        --sidebar: oklch(0.205 0 0);
-        --sidebar-foreground: oklch(0.985 0 0);
-        --sidebar-primary: oklch(0.488 0.243 264.376);
-        --sidebar-primary-foreground: oklch(0.985 0 0);
-        --sidebar-accent: oklch(0.269 0 0);
-        --sidebar-accent-foreground: oklch(0.985 0 0);
-        --sidebar-border: oklch(1 0 0 / 10%);
-        --sidebar-ring: oklch(0.556 0 0);
+        --background: 222 47% 11%;
+        --foreground: 210 40% 98%;
+        --card: 217 33% 17%;
+        --card-foreground: 210 40% 98%;
+        --popover: 217 33% 17%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 217 91% 60%;
+        --primary-foreground: 222 47% 11%;
+        --secondary: 215 25% 27%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 215 25% 27%;
+        --muted-foreground: 214 20% 65%;
+        --accent: 217 40% 25%;
+        --accent-foreground: 214 95% 85%;
+        --destructive: 347 77% 55%;
+        --border: 215 25% 27%;
+        --input: 215 25% 27%;
+        --ring: 217 91% 60%;
+        --chart-1: 217 91% 60%;
+        --chart-2: 221 83% 53%;
+        --chart-3: 199 89% 48%;
+        --chart-4: 214 20% 65%;
+        --chart-5: 210 40% 98%;
+        --sidebar: 217 33% 17%;
+        --sidebar-foreground: 210 40% 98%;
+        --sidebar-primary: 217 91% 60%;
+        --sidebar-primary-foreground: 222 47% 11%;
+        --sidebar-accent: 217 40% 25%;
+        --sidebar-accent-foreground: 214 95% 85%;
+        --sidebar-border: 215 25% 27%;
+        --sidebar-ring: 217 91% 60%;
     }
 }
 
@@ -78,5 +78,41 @@
     }
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+@layer components {
+    .react-datepicker {
+        @apply border-slate-200 bg-white text-slate-900 shadow-sm;
+    }
+
+    .react-datepicker__header {
+        @apply border-slate-200 bg-slate-50;
+    }
+
+    .react-datepicker__current-month,
+    .react-datepicker-time__header,
+    .react-datepicker-year-header {
+        @apply text-slate-900;
+    }
+
+    .react-datepicker__day-name,
+    .react-datepicker__day,
+    .react-datepicker__time-name {
+        @apply text-slate-500;
+    }
+
+    .react-datepicker__day:hover {
+        @apply bg-blue-50 text-blue-700;
+    }
+
+    .react-datepicker__day--selected,
+    .react-datepicker__day--keyboard-selected {
+        @apply bg-blue-600 text-white;
+    }
+
+    .react-datepicker__day--selected:hover,
+    .react-datepicker__day--keyboard-selected:hover {
+        @apply bg-blue-700 text-white;
     }
 }

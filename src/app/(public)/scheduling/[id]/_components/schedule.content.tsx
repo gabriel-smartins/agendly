@@ -146,8 +146,8 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
     }
 
     return (
-        <div className="min-h-screen flex flex-col">
-            <div className="h-32 bg-emerald-500" />
+        <div className="min-h-screen flex flex-col bg-slate-50">
+            <div className="h-32 bg-blue-600" />
             <section className="container mx-auto px-4 -mt-16">
                 <div className="max-w-2xl mx-auto">
                     <article className="flex flex-col items-center">
@@ -160,12 +160,12 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                             />
                         </div>
 
-                        <h1 className="text-2xl font-bold mb-2">
+                        <h1 className="text-2xl font-bold text-slate-900 mb-2">
                             {profile.name}
                         </h1>
                         <div className="flex items-center gap-1">
-                            <MapPin className="w-5 h-5" />
-                            <span>
+                            <MapPin className="w-5 h-5 text-slate-500" />
+                            <span className="text-slate-500">
                                 {profile.address
                                     ? profile.address
                                     : 'Endereço não informado'}
@@ -193,7 +193,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                         <Input
                                             id="name"
                                             placeholder="Digite seu nome..."
-                                            className="placeholder:text-gray-400"
+                                            className="placeholder:text-slate-400"
                                             {...field}
                                         />
                                     </FormControl>
@@ -214,7 +214,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                         <Input
                                             id="email"
                                             placeholder="Digite seu email..."
-                                            className="placeholder:text-gray-400"
+                                            className="placeholder:text-slate-400"
                                             {...field}
                                         />
                                     </FormControl>
@@ -236,7 +236,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                             {...field}
                                             id="phone"
                                             placeholder="(XX) XXXXX-XXXX"
-                                            className="placeholder:text-gray-400"
+                                            className="placeholder:text-slate-400"
                                             onChange={(e) => {
                                                 const formattedValue =
                                                     maskPhone(e.target.value)
@@ -259,7 +259,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                     </FormLabel>
                                     <FormControl>
                                         <DateTimePicker
-                                            className="w-full rounded border p-2"
+                                            className="w-full rounded border border-slate-200 bg-white p-2 text-slate-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
                                             initialDate={new Date()}
                                             onChange={(date) => {
                                                 if (date) {
@@ -316,7 +316,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                 <Label className="font-semibold">
                                     Horários disponíveis:
                                 </Label>
-                                <div className="bg-gray-50 p-4 rounded-lg">
+                                <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
                                     {loadingSlots ? (
                                         <p>Carregando horários...</p>
                                     ) : availableTimeSlots.length === 0 ? (
@@ -357,7 +357,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                         {profile.status ? (
                             <Button
                                 type="submit"
-                                className="w-full text-white bg-emerald-500 hover:bg-emerald-400"
+                                className="w-full bg-blue-600 text-white hover:bg-blue-700"
                                 disabled={
                                     isSubmitting ||
                                     !watch('name') ||
@@ -375,7 +375,7 @@ export function ScheduleContent({ profile }: ScheduleContentProps) {
                                     : 'Realizar agendamento'}
                             </Button>
                         ) : (
-                            <p className="bg-red-500 text-white text-center px-4 py-2 rounded-md">
+                            <p className="bg-rose-600 text-white text-center px-4 py-2 rounded-md">
                                 A clínica está fechada nesse momento.
                             </p>
                         )}

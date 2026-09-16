@@ -68,7 +68,7 @@ export function ReminderContent({ closeDialog }: ReminderContentProps) {
                                     <Input
                                         {...field}
                                         placeholder="Digite qual o lembrete..."
-                                        className="placeholder:text-gray-400"
+                                        className="placeholder:text-slate-400"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -78,7 +78,7 @@ export function ReminderContent({ closeDialog }: ReminderContentProps) {
 
                     <Button
                         type="submit"
-                        className="bg-emerald-500 hover:bg-emerald-400 text-white"
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
                         disabled={isSubmitting || !form.watch('description')}
                     >
                         {isSubmitting && (

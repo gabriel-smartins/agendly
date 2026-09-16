@@ -83,7 +83,7 @@ export function ReminderList({ reminder }: ReminderListProps) {
                 </CardHeader>
                 <CardContent>
                     {reminder.length === 0 && (
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-slate-500">
                             Nenhum lembrete encontrado...
                         </p>
                     )}
@@ -98,7 +98,7 @@ export function ReminderList({ reminder }: ReminderListProps) {
                                         {item.description}
                                     </p>
                                     <Button
-                                        className="bg-red-500 hover:bg-red-400 shadow-none rounded-full p-2"
+                                        className="bg-rose-600 hover:bg-rose-700 shadow-none rounded-full p-2"
                                         size="sm"
                                         onClick={() =>
                                             handleDeleteReminder(item.id)
