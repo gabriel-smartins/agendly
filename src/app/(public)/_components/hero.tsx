@@ -10,9 +10,10 @@ export function Hero() {
                     src={heroBackgroundImage}
                     alt="Grupo corporativo"
                     fill
-                    className="object-fill"
+                    className="object-cover object-center"
                     quality={100}
                     priority
+                    sizes="100vw"
                 />
             </div>
 
