@@ -14,12 +14,15 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
         <section className="bg-slate-50 py-16">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-3xl text-center mb-12 font-bold">
-                    Profissionais
+                    Você pode querer conhecer
                 </h2>
 
                 <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {profiles.map((profile) => (
-                        <Card className="overflow-hidden border-none hover:shadow-lg duration-500">
+                        <Card
+                            key={profile.id}
+                            className="overflow-hidden border-none hover:shadow-lg duration-500"
+                        >
                             <CardContent className="p-0">
                                 <div>
                                     <div className="relative h-48">
