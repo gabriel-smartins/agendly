@@ -61,7 +61,7 @@ export function Header() {
                     ) : (
                         <LogIn />
                     )}
-                    {isLoggingIn ? 'Entrando...' : 'Portal da clínica'}
+                    {isLoggingIn ? 'Entrando...' : 'Área da empresa'}
                 </Button>
             )}
         </>
