@@ -39,7 +39,7 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                     key={item.href}
                     asChild
-                    className="bg-transparent text-black hover:bg-transparent shadow-none"
+                    className="bg-transparent text-slate-700 hover:bg-blue-50 hover:text-blue-700 shadow-none"
                 >
                     <Link href={item.href} className="text-base">
                         {item.label}
@@ -50,9 +50,9 @@ export function Header() {
             {session ? (
                 <Link
                     href="/dashboard"
-                    className="flex items-center gap-2 justify-center bg-zinc-900 text-white py-1 rounded-md px-4"
+                    className="flex items-center gap-2 justify-center bg-blue-600 text-white py-1 rounded-md px-4 hover:bg-blue-700"
                 >
-                    Acessar clínica
+                    Acessar dashboard
                 </Link>
             ) : (
                 <Button onClick={handleLogin} disabled={isLoggingIn}>
@@ -68,20 +68,23 @@ export function Header() {
     )
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[40] py-4 px-6 bg-white">
+        <header className="fixed top-0 left-0 right-0 z-[50] py-4 px-6 bg-white/70 backdrop-blur-md border-b border-slate-200/50 transition-all duration-300">
             <div className="container mx-auto flex items-center justify-between">
-                <Link href="/" className="text-2xl font-bold text-zinc-900">
-                    Odonto<span className="text-emerald-500">Pro</span>
+                <Link
+                    href="/"
+                    className="text-2xl font-extrabold tracking-tight text-slate-700"
+                >
+                    Agend<span className="text-blue-600">ly</span>
                 </Link>
 
-                <nav className="hidden md:flex items-center space-x-4">
+                <nav className="hidden md:flex items-center space-x-2">
                     <NavLinks />
                 </nav>
 
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                     <SheetTrigger asChild className="md:hidden">
                         <Button
-                            className="text-black hover:bg-transparent"
+                            className="text-slate-700 hover:bg-slate-100/50"
                             variant="ghost"
                             size="icon"
                         >
@@ -91,16 +94,18 @@ export function Header() {
 
                     <SheetContent
                         side="right"
-                        className="w-[240px] sm:w-[300px] bg-white"
+                        className="w-[280px] sm:w-[320px] bg-white border-l-slate-200"
                     >
-                        <SheetHeader>
-                            <SheetTitle>Menu</SheetTitle>
+                        <SheetHeader className="text-left mb-4">
+                            <SheetTitle className="text-xl font-bold text-slate-800">
+                                Menu
+                            </SheetTitle>
                             <SheetDescription>
-                                Veja nossos links
+                                Acesse as opções da plataforma
                             </SheetDescription>
                         </SheetHeader>
 
-                        <nav className="flex flex-col space-y-4 mt-6">
+                        <nav className="flex flex-col space-y-3 mt-4">
                             <NavLinks />
                         </nav>
                     </SheetContent>
