@@ -1,10 +1,21 @@
 'use client'
 
-import Link from 'next/link'
-import Image from 'next/image'
-import { usePathname } from 'next/navigation'
-import { useState } from 'react'
 import clsx from 'clsx'
+import {
+    Banknote,
+    CalendarCheck2,
+    ChevronLeft,
+    ChevronRight,
+    Folder,
+    List,
+    Loader2,
+    Settings,
+} from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import logoImage from '@/../public/logo.png'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
 import {
@@ -14,16 +25,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet'
-import {
-    Banknote,
-    CalendarCheck2,
-    ChevronLeft,
-    ChevronRight,
-    Folder,
-    List,
-    Settings,
-} from 'lucide-react'
-import logoImage from '@/../public/logo.png'
 
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
     const pathName = usePathname()
@@ -236,20 +237,50 @@ function SidebarLinks({
     pathName,
     isCollasped,
 }: SidebarLinkProps) {
+    const [pendingHref, setPendingHref] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (pathName === pendingHref) {
+            setPendingHref(null)
+        }
+    }, [pathName, pendingHref])
+
+    const isLoading = pendingHref === href && pathName !== href
+
     return (
-        <Link href={href}>
+        <Link
+            href={href}
+            aria-current={pathName === href ? 'page' : undefined}
+            aria-busy={isLoading}
+            onClick={() => {
+                if (pathName !== href) {
+                    setPendingHref(href)
+                }
+            }}
+        >
             <div
                 className={clsx(
-                    'flex items-center gap-2 px-3 py-2 rounded-md transition-colors',
+                    'flex items-center gap-2 rounded-md px-3 py-2 transition-all duration-200',
                     {
                         'text-white bg-blue-600': pathName === href,
                         'text-slate-700 hover:bg-blue-50 hover:text-blue-700':
                             pathName !== href,
+                        'pointer-events-none opacity-70': isLoading,
                     }
                 )}
             >
                 <span className="w-6 h-6">{icon}</span>
-                {!isCollasped && <span>{label}</span>}
+                {!isCollasped && (
+                    <span className="flex items-center gap-2">
+                        {label}
+                        {isLoading && (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                        )}
+                    </span>
+                )}
+                {isCollasped && isLoading && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                )}
             </div>
         </Link>
     )
