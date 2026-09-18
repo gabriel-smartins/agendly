@@ -23,13 +23,13 @@ export default async function Dashboard() {
     return (
         <div>
             <main>
-                <div className="gap-2 flex items-center justify-end">
+                <div className="flex items-center justify-end gap-2">
                     <Link
                         href={`/scheduling/${session.user?.id!}`}
                         target="_blank"
                     >
-                        <Button className="bg-teal-600 hover:bg-teal-700 text-white flex-1 md:flex[0]">
-                            <Calendar className="w-5 h-5" />
+                        <Button className="flex-1 bg-blue-600 text-white hover:bg-blue-700 md:flex-[0]">
+                            <Calendar className="h-5 w-5" />
                             <span>Novo agendamento</span>
                         </Button>
                     </Link>

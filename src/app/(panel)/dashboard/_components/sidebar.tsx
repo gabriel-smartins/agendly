@@ -7,15 +7,14 @@ import {
     ChevronLeft,
     ChevronRight,
     Folder,
+    Home,
     List,
     Loader2,
     Settings,
 } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import logoImage from '@/../public/logo.png'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
 import {
@@ -42,14 +41,15 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                     }
                 )}
             >
-                <div className="mb-6 mt-4">
+                <div className="mb-6 mt-4 flex justify-center">
                     {!isCollapsed && (
-                        <Image
-                            src={logoImage}
-                            alt="Logo"
-                            priority
-                            quality={100}
-                        />
+                        <Link
+                            href="/"
+                            className="inline-block text-2xl font-extrabold tracking-tight text-slate-700"
+                        >
+                            Agend
+                            <span className="text-blue-600">ly</span>
+                        </Link>
                     )}
                 </div>
 
@@ -66,6 +66,14 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
                 {isCollapsed && (
                     <nav className="flex flex-col gap-1 overflow-hidden mt-2">
+                        <SidebarLinks
+                            href="/"
+                            icon={<Home />}
+                            label="Home"
+                            pathName={pathName}
+                            isCollasped={isCollapsed}
+                        />
+
                         <SidebarLinks
                             href="/dashboard"
                             icon={<CalendarCheck2 />}
@@ -106,6 +114,14 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                             <span className="text-sm text-slate-400 font-medium mt-1 uppercase">
                                 Painel
                             </span>
+
+                            <SidebarLinks
+                                href="/"
+                                icon={<Home />}
+                                label="Home"
+                                pathName={pathName}
+                                isCollasped={isCollapsed}
+                            />
 
                             <SidebarLinks
                                 href="/dashboard"
@@ -181,6 +197,14 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                             </SheetDescription>
 
                             <nav className="grid gap-2 text-base pt-5">
+                                <SidebarLinks
+                                    href="/"
+                                    icon={<Home />}
+                                    label="Home"
+                                    pathName={pathName}
+                                    isCollasped={isCollapsed}
+                                />
+
                                 <SidebarLinks
                                     href="/dashboard"
                                     icon={<CalendarCheck2 />}
