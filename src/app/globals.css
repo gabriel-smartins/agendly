@@ -81,6 +81,24 @@
     }
 }
 
+@layer utilities {
+    .animate-fade-up {
+        animation: fade-up 0.45s ease-out both;
+    }
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @layer components {
     .react-datepicker {
         @apply border-slate-200 bg-white text-slate-900 shadow-sm;

@@ -28,10 +28,11 @@ export function SearchDisplay({ profiles }: SearchResultsProps) {
 
     return (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {profiles.map((profile) => (
+            {profiles.map((profile, index) => (
                 <Card
                     key={profile.id}
-                    className="flex h-full flex-col border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+                    className="animate-fade-up flex h-full flex-col border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
+                    style={{ animationDelay: `${index * 65}ms` }}
                 >
                     <CardContent className="flex h-full flex-col p-5">
                         <div className="mb-4 flex items-center gap-3">
