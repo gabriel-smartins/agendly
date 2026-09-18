@@ -1,7 +1,8 @@
 'use client'
 
-import { Loader, LogIn, Menu } from 'lucide-react'
+import { ArrowRight, LogIn, Menu } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -13,23 +14,15 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet'
-import { handleRegister } from '../_actions/login'
-
 export function Header() {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
     const [isOpen, setIsOpen] = useState(false)
-    const [isLoggingIn, setIsLoggingIn] = useState(false)
+    const router = useRouter()
 
     const navItems = [{ href: '#profissionais', label: 'Profissionais' }]
 
-    async function handleLogin() {
-        setIsLoggingIn(true)
-
-        try {
-            await handleRegister('google')
-        } finally {
-            setIsLoggingIn(false)
-        }
+    function handleLogin() {
+        router.push('/login')
     }
 
     const NavLinks = () => (
@@ -57,16 +50,11 @@ export function Header() {
             ) : (
                 <Button
                     onClick={handleLogin}
-                    disabled={isLoggingIn}
-                    aria-busy={isLoggingIn}
-                    className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-80"
+                    className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
                 >
-                    {isLoggingIn ? (
-                        <Loader className="h-4 w-4 animate-spin" />
-                    ) : (
-                        <LogIn className="h-4 w-4" />
-                    )}
-                    {isLoggingIn ? 'Entrando...' : 'Área da empresa'}
+                    <LogIn className="h-4 w-4" />
+                    Área da empresa
+                    <ArrowRight className="h-4 w-4" />
                 </Button>
             )}
         </>
