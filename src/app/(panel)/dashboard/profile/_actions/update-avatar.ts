@@ -1,8 +1,8 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
-import { revalidatePath } from 'next/cache'
 
 interface UpdateAvatarProps {
     avatarUrl: string

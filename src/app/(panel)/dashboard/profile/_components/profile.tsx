@@ -1,12 +1,10 @@
 'use client'
 
 import { ArrowRight, Loader } from 'lucide-react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import imgTeste from '@/../public/foto1.png'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {

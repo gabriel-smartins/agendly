@@ -12,9 +12,9 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Prisma } from '@/generated/prisma/client'
 import { cancelAppointment } from '../../_actions/cancel-appointment'
+import { AppointmentsSkeleton } from './appointments-skeleton'
 import { DatePickerButton } from './date-picker-button'
 import { DialogAppointment } from './dialog-appointments'
-import { AppointmentsSkeleton } from './appointments-skeleton'
 
 interface AppointmentsListProps {
     times: string[]
