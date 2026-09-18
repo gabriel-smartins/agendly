@@ -156,10 +156,10 @@ export function LoginCard() {
                 <p className="text-center text-sm text-slate-500">
                     Ainda não tem conta?{' '}
                     <Link
-                        href="/"
+                        href="/register"
                         className="font-semibold text-blue-600 transition-colors hover:text-blue-700"
                     >
-                        Voltar para a home
+                        Criar conta
                     </Link>
                 </p>
             </CardContent>

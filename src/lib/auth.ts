@@ -15,8 +15,27 @@ const credentialsSchema = z.object({
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
     trustHost: true,
+    session: {
+        strategy: 'jwt',
+    },
     pages: {
         signIn: '/login',
+    },
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.sub = user.id
+            }
+
+            return token
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.id = token.sub as string
+            }
+
+            return session
+        },
     },
     providers: [
         GitHub,
@@ -37,23 +56,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const { email, password } = result.data
                 const normalizedEmail = email.toLowerCase()
 
-                let user = await prisma.user.findUnique({
+                const user = await prisma.user.findUnique({
                     where: { email: normalizedEmail },
                 })
 
-                if (!user) {
-                    const hashedPassword = await bcrypt.hash(password, 12)
-
-                    user = await prisma.user.create({
-                        data: {
-                            email: normalizedEmail,
-                            name: normalizedEmail.split('@')[0],
-                            password: hashedPassword,
-                        },
-                    })
-                }
-
-                if (!user.password) {
+                if (!user || !user.password) {
                     return null
                 }
 
