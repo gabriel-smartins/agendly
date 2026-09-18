@@ -58,7 +58,7 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                                             <h3 className="font-semibold">
                                                 {profile.name}
                                             </h3>
-                                            <p className="text-sm text-slate-500">
+                                            <p className="text-sm text-slate-500 line-clamp-1">
                                                 {profile.address ??
                                                     'Endereço não informado'}
                                             </p>
