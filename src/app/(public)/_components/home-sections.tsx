@@ -1,3 +1,5 @@
+'use client'
+
 import {
     ArrowRight,
     CalendarCheck2,
@@ -13,6 +15,7 @@ import {
     UsersRound,
 } from 'lucide-react'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 
 const categories = [
@@ -70,10 +73,33 @@ export function HowItWorks() {
         },
     ]
 
+    useEffect(() => {
+        const elements = document.querySelectorAll('[data-reveal]')
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible')
+                        observer.unobserve(entry.target)
+                    }
+                })
+            },
+            {
+                threshold: 0.15,
+                rootMargin: '0px 0px -30px 0px',
+            }
+        )
+
+        elements.forEach((element) => observer.observe(element))
+
+        return () => observer.disconnect()
+    }, [])
+
     return (
         <section className="bg-white py-20" id="como-funciona">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl text-center">
+                <div data-reveal className="mx-auto max-w-2xl text-center">
                     <p className="text-sm font-semibold uppercase tracking-widest text-blue-600">
                         Simples desde o primeiro passo
                     </p>
@@ -87,12 +113,14 @@ export function HowItWorks() {
                 </div>
 
                 <div className="mt-12 grid gap-8 md:grid-cols-3">
-                    {steps.map((step) => {
+                    {steps.map((step, index) => {
                         const Icon = step.icon
 
                         return (
                             <article
                                 key={step.number}
+                                data-reveal
+                                style={{ transitionDelay: `${index * 100}ms` }}
                                 className="relative border-t border-slate-200 pt-6"
                             >
                                 <div className="flex items-center justify-between">
@@ -121,7 +149,7 @@ export function ServiceCategories() {
         <section className="bg-slate-50 py-20" id="categorias">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-                    <div className="max-w-xl">
+                    <div data-reveal className="max-w-xl">
                         <p className="text-sm font-semibold uppercase tracking-widest text-blue-600">
                             Serviços para diferentes necessidades
                         </p>
@@ -129,16 +157,18 @@ export function ServiceCategories() {
                             Encontre a solução certa para o seu momento
                         </h2>
                     </div>
-                    <p className="max-w-md text-slate-500">
+                    <p data-reveal className="max-w-md text-slate-500">
                         A plataforma conecta você a profissionais e negócios de
                         diferentes áreas, em um só lugar.
                     </p>
                 </div>
 
                 <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {categories.map((category) => (
+                    {categories.map((category, index) => (
                         <div
                             key={category}
+                            data-reveal
+                            style={{ transitionDelay: `${index * 80}ms` }}
                             className="flex items-center gap-3 border border-slate-200 bg-white px-5 py-4 shadow-sm"
                         >
                             <span className="h-2 w-2 rounded-full bg-blue-600" />
@@ -157,7 +187,7 @@ export function PlatformBenefits() {
     return (
         <section className="bg-white py-20" id="beneficios">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl text-center">
+                <div data-reveal className="mx-auto max-w-2xl text-center">
                     <p className="text-sm font-semibold uppercase tracking-widest text-blue-600">
                         Feito para facilitar sua rotina
                     </p>
@@ -167,12 +197,14 @@ export function PlatformBenefits() {
                 </div>
 
                 <div className="mt-12 grid gap-8 md:grid-cols-3">
-                    {benefits.map((benefit) => {
+                    {benefits.map((benefit, index) => {
                         const Icon = benefit.icon
 
                         return (
                             <article
                                 key={benefit.title}
+                                data-reveal
+                                style={{ transitionDelay: `${index * 120}ms` }}
                                 className="border-l-2 border-blue-600 pl-6"
                             >
                                 <Icon className="h-7 w-7 text-blue-600" />
@@ -215,7 +247,7 @@ export function BusinessCta() {
         <section className="bg-slate-900 py-20 text-white" id="para-negocios">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-                    <div className="max-w-2xl">
+                    <div data-reveal className="max-w-2xl">
                         <Store className="h-8 w-8 text-blue-400" />
                         <p className="mt-5 text-sm font-semibold uppercase tracking-widest text-blue-400">
                             Para empresas e prestadores
@@ -230,6 +262,7 @@ export function BusinessCta() {
                     </div>
                     <Button
                         asChild
+                        data-reveal
                         className="w-fit bg-blue-600 px-6 text-white hover:bg-blue-700"
                     >
                         <Link href="#como-funciona">
@@ -240,12 +273,14 @@ export function BusinessCta() {
                 </div>
 
                 <div className="mt-12 grid border-y border-slate-700 md:grid-cols-3">
-                    {businessBenefits.map((benefit) => {
+                    {businessBenefits.map((benefit, index) => {
                         const Icon = benefit.icon
 
                         return (
                             <article
                                 key={benefit.title}
+                                data-reveal
+                                style={{ transitionDelay: `${index * 120}ms` }}
                                 className="border-slate-700 py-6 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0"
                             >
                                 <Icon className="h-6 w-6 text-blue-400" />
@@ -266,7 +301,10 @@ export function BusinessCta() {
 
 export function SupportNote() {
     return (
-        <div className="flex items-center justify-center gap-2 border-t border-slate-200 bg-white px-4 py-5 text-center text-sm text-slate-500">
+        <div
+            data-reveal
+            className="flex items-center justify-center gap-2 border-t border-slate-200 bg-white px-4 py-5 text-center text-sm text-slate-500"
+        >
             <Headphones className="h-4 w-4 text-blue-600" />
             <span>Uma experiência pensada para clientes e negócios.</span>
         </div>
