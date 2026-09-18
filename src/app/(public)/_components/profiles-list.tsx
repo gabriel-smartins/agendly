@@ -21,7 +21,7 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                     {profiles.map((profile) => (
                         <Card
                             key={profile.id}
-                            className="overflow-hidden border-none hover:shadow-lg duration-500"
+                            className="overflow-hidden border-none duration-500 hover:shadow-lg"
                         >
                             <CardContent className="p-0">
                                 <div>
@@ -37,7 +37,7 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                                         />
                                     </div>
                                 </div>
-                                <div className="p-4 space-y-4">
+                                <div className="space-y-4 p-4">
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <h3 className="font-semibold">
@@ -48,12 +48,12 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                                                     'Endereço não informado'}
                                             </p>
                                         </div>
-                                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                                        <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                                     </div>
                                     <Link
                                         href={`/scheduling/${profile.id}`}
                                         target="_blank"
-                                        className="bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center py-2 rounded-md text-sm md:text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                                        className="flex items-center justify-center rounded-md bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 md:text-base"
                                     >
                                         Agendar horário
                                         <ArrowRight className="ml-2" />
@@ -63,6 +63,16 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                         </Card>
                     ))}
                 </section>
+
+                <div className="mt-8 flex justify-center">
+                    <Link
+                        href="/search"
+                        className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+                    >
+                        Ver mais
+                        <ArrowRight className="h-4 w-4" />
+                    </Link>
+                </div>
             </div>
         </section>
     )
