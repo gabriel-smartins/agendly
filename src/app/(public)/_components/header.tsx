@@ -26,7 +26,7 @@ export function Header() {
         setIsLoggingIn(true)
 
         try {
-            await handleRegister('github')
+            await handleRegister('google')
         } finally {
             setIsLoggingIn(false)
         }
