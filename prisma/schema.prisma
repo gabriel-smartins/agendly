@@ -13,43 +13,43 @@ datasource db {
 }
 
 model Appointment {
-  id          String   @id @default(cuid())
-  name        String
-  email       String
-  phone       String
+  id               String   @id @default(cuid())
+  name             String
+  email            String
+  phone            String
   appointementDate DateTime
-  time        String
+  time             String
 
-  serviceId   String
-  service     Service  @relation(fields: [serviceId], references: [id])
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Reminder {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   description String
- 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Service {
-  id          String   @id @default(cuid())
-  name        String
-  price       Int
-  duration    Int
-  status      Boolean  @default(true)
+  id       String  @id @default(cuid())
+  name     String
+  price    Int
+  duration Int
+  status   Boolean @default(true)
 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   appointments Appointment[]
 
@@ -63,32 +63,33 @@ enum Plan {
 }
 
 model Subscription {
-  id            String   @id @default(cuid())
-  status        String
-  plan          Plan
-  priceId       String
+  id      String @id @default(cuid())
+  status  String
+  plan    Plan
+  priceId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   userId String? @unique
-  user User? @relation(fields: [userId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  emailVerified DateTime?
-  image         String?
-  address       String?         @default("")
-  phone         String?         @default("")
-  status        Boolean         @default(true)
-  timezone      String?
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String    @unique
+  emailVerified      DateTime?
+  image              String?
+  password           String?
+  address            String?   @default("")
+  phone              String?   @default("")
+  status             Boolean   @default(true)
+  timezone           String?
   stripe_customer_id String?
-  times         String[]        @default([])     
+  times              String[]  @default([])
 
-  subscription Subscription? 
+  subscription Subscription?
   services     Service[]
   reminders    Reminder[]
   appointments Appointment[]
@@ -97,7 +98,7 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -114,33 +115,33 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
- 
+
 model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
- 
+
 // Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
@@ -151,8 +152,8 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([userId, credentialID])
 }

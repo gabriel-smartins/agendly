@@ -3,15 +3,21 @@ import { SearchFilters } from './_components/search-filters'
 import { getProfilesWithFilters } from './_data-access/get-profiles-with-filters'
 
 interface SearchPageProps {
-    searchParams: { [key: string]: string | string[] | undefined }
+    searchParams?: Promise<{
+        [key: string]: string | string[] | undefined
+    }>
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
+    const resolvedSearchParams = (await searchParams) ?? {}
+
     const nameParam =
-        typeof searchParams.name === 'string' ? searchParams.name : undefined
+        typeof resolvedSearchParams.name === 'string'
+            ? resolvedSearchParams.name
+            : undefined
     const serviceParam =
-        typeof searchParams.service === 'string'
-            ? searchParams.service
+        typeof resolvedSearchParams.service === 'string'
+            ? resolvedSearchParams.service
             : undefined
 
     const result = await getProfilesWithFilters({
