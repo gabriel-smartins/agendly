@@ -72,7 +72,11 @@ export function SearchDisplay({ profiles }: SearchResultsProps) {
                         </div>
 
                         <Button asChild className="mt-5 w-full">
-                            <Link href={`/scheduling/${profile.id}`}>
+                            <Link
+                                href={`/scheduling/${profile.id}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 Ver horários
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
