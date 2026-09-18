@@ -1,10 +1,22 @@
-import { Search } from 'lucide-react'
+'use client'
+
+import { Loader, Search } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
 import heroBackgroundImage from '@/../public/hero.jpg'
 import { Button } from '@/components/ui/button'
 
 export function Hero() {
+    const router = useRouter()
+    const [isNavigating, startTransition] = useTransition()
+
+    const handleNavigateToSearch = () => {
+        startTransition(() => {
+            router.push('/search')
+        })
+    }
+
     return (
         <section className="relative flex min-h-[600px] items-center">
             <div className="absolute inset-0 z-0">
@@ -35,13 +47,22 @@ export function Hero() {
                         </p>
 
                         <Button
-                            asChild
-                            className="w-fit bg-blue-600 px-8 py-6 text-lg font-semibold text-white shadow-md transition-colors hover:bg-blue-700"
+                            onClick={handleNavigateToSearch}
+                            disabled={isNavigating}
+                            aria-busy={isNavigating}
+                            className="w-fit bg-blue-600 px-8 py-6 text-lg font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-80"
                         >
-                            <Link href="/search">
-                                Profissionais disponíveis
-                                <Search className="ml-2 h-5 w-5" />
-                            </Link>
+                            {isNavigating ? (
+                                <>
+                                    <Loader className="mr-2 h-5 w-5 animate-spin" />
+                                    Carregando...
+                                </>
+                            ) : (
+                                <>
+                                    Profissionais disponíveis
+                                    <Search className="ml-2 h-5 w-5" />
+                                </>
+                            )}
                         </Button>
                     </article>
                 </main>

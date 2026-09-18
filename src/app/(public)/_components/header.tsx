@@ -55,11 +55,16 @@ export function Header() {
                     Acessar dashboard
                 </Link>
             ) : (
-                <Button onClick={handleLogin} disabled={isLoggingIn}>
+                <Button
+                    onClick={handleLogin}
+                    disabled={isLoggingIn}
+                    aria-busy={isLoggingIn}
+                    className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-80"
+                >
                     {isLoggingIn ? (
-                        <Loader className="animate-spin" />
+                        <Loader className="h-4 w-4 animate-spin" />
                     ) : (
-                        <LogIn />
+                        <LogIn className="h-4 w-4" />
                     )}
                     {isLoggingIn ? 'Entrando...' : 'Área da empresa'}
                 </Button>
