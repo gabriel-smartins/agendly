@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, MapPin } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -28,63 +28,70 @@ export function SearchDisplay({ profiles }: SearchResultsProps) {
 
     return (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {profiles.map((profile, index) => (
-                <Card
-                    key={profile.id}
-                    className="animate-fade-up flex h-full flex-col border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
-                    style={{ animationDelay: `${index * 65}ms` }}
-                >
-                    <CardContent className="flex h-full flex-col p-5">
-                        <div className="mb-4 flex items-center gap-3">
-                            {profile.image && (
+            {profiles.map((profile, index) => {
+                const addressText = profile.address?.trim() || 'Não informado'
+
+                return (
+                    <Card
+                        key={profile.id}
+                        className="animate-fade-up flex h-full flex-col border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
+                        style={{ animationDelay: `${index * 65}ms` }}
+                    >
+                        <CardContent className="flex h-full flex-col p-5">
+                            <div className="mb-4 flex items-center gap-3">
                                 <img
-                                    src={profile.image}
+                                    src={
+                                        profile.image ||
+                                        '/generic-profile-pic.jpg'
+                                    }
                                     alt={
                                         profile.name || 'Perfil do profissional'
                                     }
                                     className="h-11 w-11 rounded-full object-cover"
                                 />
-                            )}
-                            <h3 className="text-lg font-semibold text-slate-900">
-                                {profile.name || 'Sem nome'}
-                            </h3>
-                        </div>
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="text-lg font-semibold text-slate-900">
+                                        {profile.name || 'Sem nome'}
+                                    </h3>
+                                    <div className="mt-1 flex items-center gap-1.5 text-sm text-slate-500">
+                                        <MapPin className="h-4 w-4 shrink-0 text-slate-400" />
+                                        <span className="line-clamp-1 min-w-0">
+                                            {addressText}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
-                        {profile.address && (
-                            <p className="mb-4 text-sm text-slate-500">
-                                {profile.address}
-                            </p>
-                        )}
+                            <div className="mt-auto flex flex-wrap gap-2">
+                                {profile.services.slice(0, 3).map((svc) => (
+                                    <span
+                                        key={svc.id}
+                                        className="rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700"
+                                    >
+                                        {svc.name}
+                                    </span>
+                                ))}
+                                {profile.services.length > 3 && (
+                                    <span className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600">
+                                        +{profile.services.length - 3}
+                                    </span>
+                                )}
+                            </div>
 
-                        <div className="mt-auto flex flex-wrap gap-2">
-                            {profile.services.slice(0, 3).map((svc) => (
-                                <span
-                                    key={svc.id}
-                                    className="rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700"
+                            <Button asChild className="mt-5 w-full">
+                                <Link
+                                    href={`/scheduling/${profile.id}`}
+                                    target="_blank"
+                                    rel="noreferrer"
                                 >
-                                    {svc.name}
-                                </span>
-                            ))}
-                            {profile.services.length > 3 && (
-                                <span className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600">
-                                    +{profile.services.length - 3}
-                                </span>
-                            )}
-                        </div>
-
-                        <Button asChild className="mt-5 w-full">
-                            <Link
-                                href={`/scheduling/${profile.id}`}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                Ver horários
-                                <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </CardContent>
-                </Card>
-            ))}
+                                    Ver horários
+                                    <ArrowRight className="ml-2 h-4 w-4" />
+                                </Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
+                )
+            })}
         </div>
     )
 }
