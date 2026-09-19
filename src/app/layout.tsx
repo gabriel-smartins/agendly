@@ -19,6 +19,17 @@ export const metadata: Metadata = {
     title: 'Agendly - Plataforma de agendamento de serviços',
     description:
         'Encontre profissionais e agende serviços de forma simples e organizada.',
+    robots: {
+        index: true,
+        follow: true,
+        nocache: true,
+    },
+    openGraph: {
+        title: 'Agendly - Plataforma de agendamento de serviços',
+        description:
+            'Encontre profissionais e agende serviços de forma simples e organizada.',
+        images: [`${process.env.NEXT_PUBLIC_URL}/logo.png`],
+    },
 }
 
 export default function RootLayout({
