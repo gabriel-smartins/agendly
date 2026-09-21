@@ -35,6 +35,10 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                     {profiles.map((profile, index) => {
                         const addressText =
                             profile.address?.trim() || 'Não informado'
+                        const profileImage =
+                            profile.image && /^https?:\/\//.test(profile.image)
+                                ? profile.image
+                                : genericProfileImage
 
                         return (
                             <Card
@@ -46,20 +50,27 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                                     <div>
                                         <div className="relative h-48">
                                             <Image
-                                                src={
-                                                    profile.image ||
-                                                    genericProfileImage
-                                                }
+                                                src={profileImage}
                                                 alt="Foto do profissional"
                                                 fill
                                                 className="object-cover"
+                                                onError={(event) => {
+                                                    if (
+                                                        event.currentTarget
+                                                            .src !==
+                                                        genericProfileImage.src
+                                                    ) {
+                                                        event.currentTarget.src =
+                                                            genericProfileImage.src
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     </div>
-                                    <div className="space-y-4 p-4">
-                                        <div className="flex items-center justify-between">
+                                    <div className="flex h-full flex-col justify-between gap-4 p-4">
+                                        <div className="flex items-start justify-between gap-3">
                                             <div className="min-w-0 flex-1">
-                                                <h3 className="font-semibold">
+                                                <h3 className="line-clamp-2 min-h-[2.75rem] font-semibold leading-5 text-slate-900">
                                                     {profile.name}
                                                 </h3>
                                                 <div className="mt-1 flex items-center gap-1.5 text-sm text-slate-500">
@@ -69,12 +80,12 @@ export function ProfilesList({ profiles }: ProfilesListProps) {
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                                            <div className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" />
                                         </div>
 
                                         <Button
                                             asChild
-                                            className="flex w-full items-center justify-center rounded-md bg-blue-600 py-2 text-sm font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 md:text-base"
+                                            className="mt-auto flex w-full items-center justify-center rounded-md bg-blue-600 py-2 text-sm font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 md:text-base"
                                         >
                                             <Link
                                                 href={`/scheduling/${profile.id}`}
