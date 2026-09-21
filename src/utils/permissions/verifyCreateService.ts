@@ -21,6 +21,7 @@ export async function verifyCreateService({
         const serviceCount = await prisma.service.count({
             where: {
                 userId: session?.user?.id,
+                status: true,
             },
         })
 
